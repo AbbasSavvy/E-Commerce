@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 # Create your views here.
 def index(request):
-    name = 'abbas'
-    surname = 'savliwala'
+    name = 'Sarvesh'
+    surname = 'Agrawal'
     context = {'name': name, 'surname': surname}
     return render(request, 'index.html', context)
