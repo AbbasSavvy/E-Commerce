@@ -535,34 +535,37 @@ textarea.input {
 	border-right: 1px solid #dadada;
 	border-bottom: 1px solid #dadada;
 	z-index: 50;
+	/*
 	-webkit-transition: 0.3s all;
-	transition: 0.3s all;
+	transition: 0.3s all;*/
 }
 
 .category-nav.show-on-click .category-list {
-	opacity: 0;
-	visibility: hidden;
+	opacity: 1;
+	/*
 	-webkit-transform: translate(0px, 15px);
 	-ms-transform: translate(0px, 15px);
-	transform: translate(0px, 15px);
+	transform: translate(0px, 15px);*/
 }
 
 .category-nav.show-on-click .category-list.open {
 	opacity: 1;
-	visibility: visible;
+	/*
 	-webkit-transform: translate(0px, 0px);
 	-ms-transform: translate(0px, 0px);
-	transform: translate(0px, 0px);
+	transform: translate(0px, 0px);*/
 }
 
 .category-nav .category-list > li + li {
 	border-top: 1px solid #dadada;
 }
-
+/*
 .category-nav .category-list > li.dropdown > .dropdown-toggle > i {
 	float: right;
 	line-height: 20px;
 }
+*/
+
 
 .category-nav .category-list > li > a {
 	display: block;
@@ -573,6 +576,7 @@ textarea.input {
 .category-nav .category-list > li > a:hover,
 .category-nav .category-list > li > a:focus,
 .category-nav .category-list > li.dropdown.open > a {
+    visibility: visible;
 	color: #3de8ff;
 }
 

@@ -3,8 +3,11 @@ from django.shortcuts import render
 
 
 # Create your views here.
+from product.models import Category
+
+
 def index(request):
-    name = 'Sarvesh'
-    surname = 'Agrawal'
-    context = {'name': name, 'surname': surname}
+    category = Category.objects.all()
+    page = 'home'
+    context = {'page': page, 'category': category}
     return render(request, 'index.html', context)
