@@ -16,10 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from user import views as UserViews
+
+
 urlpatterns = [
     path('', include('home.urls')),
+    path('home/', include('home.urls')),
     path('admin/', admin.site.urls),
     path('product/', include('product.urls')),
     path('user/', include('user.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('login/', UserViews.login_form, name='login'),
+    path('logout/', UserViews.logout_func, name='logout'),
+    path('signup/', UserViews.newsignup, name='signup'),
 ]
