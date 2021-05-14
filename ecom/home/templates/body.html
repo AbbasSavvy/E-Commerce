@@ -23,10 +23,10 @@
 					<div class="row">
 						<div id="product-slick-1" class="product-slick">
 							<!-- Product Single -->
-							{% for product in sliderProducts %}
+							{% for product in latestProducts %}
 							<div class="product product-single">
 								<div class="product-thumb">
-									<button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button>
+									<a href="/product/{{product.id}}/{{product.slug}}" class="main-btn quick-view" ><i class="fa fa-search-plus"></i> Quick view</a>
 									<img class="deals-images" src="{{product.product_image.url}}" alt="{{product.product_image.url}}">
 								</div>
 								<div class="product-body">

@@ -893,8 +893,8 @@ textarea.input {
 	06 -> PRODUCT
 ===========================================================*/
 
-.product .product-old-price {
-	color: #3de8ff;
+.product-old-price {
+	color: rgb(126, 126, 126);
 	font-size: 70%;
 }
 
@@ -1342,11 +1342,11 @@ textarea.input {
 \*----------------------------*/
 
 #product-main-view .slick-arrow {
-	opacity: 0;
+	visibility: hidden;
 }
 
 #product-main-view:hover .slick-arrow {
-	opacity: 1;
+	visibility: hidden;
 }
 
 #product-view {

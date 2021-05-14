@@ -19,6 +19,7 @@ from django.urls import path, include
 
 from ecom import settings
 from user import views as UserViews
+from home import views
 
 
 urlpatterns = [
@@ -31,6 +32,7 @@ urlpatterns = [
     path('login/', UserViews.login_form, name='login'),
     path('logout/', UserViews.logout_func, name='logout'),
     path('signup/', UserViews.newsignup, name='signup'),
+    path('product/<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
 ]
 
 if settings.DEBUG:
