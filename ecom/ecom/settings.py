@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'mptt',
+    'widget_tweaks',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [

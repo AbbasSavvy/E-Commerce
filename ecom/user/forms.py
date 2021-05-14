@@ -5,6 +5,7 @@ from django.forms import TextInput, EmailInput, Select, FileInput
 
 from user.models import User1Profile
 from user.models import User2Profile
+from django.forms import inlineformset_factory
 
 
 class SignUp1Form(UserCreationForm):
@@ -35,3 +36,15 @@ class SignUp3Form(forms.ModelForm):
     class Meta:
         model = User2Profile
         fields = ('phone',)
+
+
+class UserUpdateForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ( 'username','email','first_name','last_name')
+        widgets = {
+            'username'  : TextInput(attrs={'class': 'input','placeholder':'username'}),
+            'email'     : EmailInput(attrs={'class': 'input','placeholder':'email'}),
+            'first_name': TextInput(attrs={'class': 'input','placeholder':'first_name'}),
+            'last_name' : TextInput(attrs={'class': 'input','placeholder':'last_name' }),
+        }
