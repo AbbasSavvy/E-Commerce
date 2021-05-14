@@ -12,8 +12,17 @@ from product.models import Category
 from user.models import User1Profile, User2Profile
 
 
+@login_required(login_url='/login')
 def index(request):
-    return HttpResponse("1")
+    category = Category.objects.all()
+    current_user = request.user  # Access User Session information
+    ty=current_user.id
+    profile1 = User1Profile.objects.filter(user_id=ty)
+    profile2 = User2Profile.objects.filter(user_id=ty)
+    context = {'category': category,
+               'profile1': profile1,
+               'profile2': profile2}
+    return render(request,'user_profile.html', context)
 
 def login_form(request):
     if request.method == 'POST':
@@ -76,7 +85,4 @@ def newsignup(request):
                'form2': form2
                }
     return render(request, 'signup_form.html', context)
-
-
-
 
