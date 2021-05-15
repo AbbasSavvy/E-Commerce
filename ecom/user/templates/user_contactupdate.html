@@ -39,16 +39,8 @@
 
                     <form method="POST">
                         {% csrf_token %}
-                        <fieldset class="form-group">
-    <table>
-        {% for form in formset %}
-        <tr><td><ul class="list-inline">{{ form.as_ul }}</ul><br></td></tr>
-        {% endfor %}
-    </table>
-                        </fieldset>
-                        <div class="form-group">
-                            <button class="primary-btn" type="submit">Update</button>
-                        </div>
+                        {{ formset.as_p }}
+                        <button class="primary-btn" type="submit">Update</button>
                     </form>
 
                 </div>

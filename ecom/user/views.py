@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.views.generic.list import ListView
 from django.forms import inlineformset_factory
@@ -119,24 +119,23 @@ def user_addressupdate(request):
     pare=User.objects.get(pk=ty)
     chilFormset = inlineformset_factory(User, User1Profile, fields=('address','city','state','pin_code','country',), extra=1,)
     if request.method == 'POST':
+        print("1")
         formset = chilFormset(request.POST, instance=pare)
         if formset.is_valid():
             formset.save()
+            print("3")
             messages.success(request, 'Your account has been updated!')
-            return HttpResponseRedirect('/user')
-    else:
-        category = Category.objects.all()
-        formset = chilFormset(instance=pare)
-        context = {
-            'category': category,
-            'formset': formset
-        }
-        return render(request, 'user_addressupdate.html', context)
+            return redirect('index')
+    print("2")
+    category = Category.objects.all()
+    formset = chilFormset(instance=pare)
+    context = {
+        'category': category,
+        'formset': formset
+    }
+    return render(request, 'user_addressupdate.html', context)
 
-
-
-
-@login_required(login_url='/login')
+login_required(login_url='/login')
 def password_update(request):
     return HttpResponse('User Update')
 
@@ -144,22 +143,21 @@ def password_update(request):
 def user_contactupdate(request):
     current_user = request.user  # Access User Session information
     ty = current_user.id
+    print(ty)
     pare=User.objects.get(pk=ty)
     chilFormset = inlineformset_factory(User, User2Profile, fields=('phone',), extra=1,)
     if request.method == 'POST':
         formset = chilFormset(request.POST, instance=pare)
         if formset.is_valid():
             formset.save()
-            messages.success(request, 'Your account has been updated!')
-            return HttpResponseRedirect('/user')
-    else:
-        category = Category.objects.all()
-        formset = chilFormset(instance=pare)
-        context = {
-            'category': category,
-            'formset': formset
-        }
-        return render(request, 'user_contactupdate.html', context)
+            return redirect('index')
+    category = Category.objects.all()
+    formset = chilFormset(instance=pare)
+    context = {
+        'category': category,
+        'formset': formset
+    }
+    return render(request, 'user_contactupdate.html', context)
 
 @login_required(login_url='/login') # Check login
 def user_password(request):

@@ -40,29 +40,8 @@
                     </div>
                     <form method="POST">
                         {% csrf_token %}
-                        <fieldset class="form-group">
-                                <table >
-                                    {% for form in formset %}
-                                        {% for hidden_field in form.hidden_fields %}
-                                            {{ hidden_field }}
-                                          {% endfor %}
-
-                                          {% for field in form.visible_fields %}
-                                            <div class="form-group">
-                                              {{ field.label_tag }}
-                                              {% render_field field class="form-control" %}
-                                              {% if field.help_text %}
-                                                <small class="form-text text-muted">{{ field.help_text }}</small>
-                                              {% endif %}
-                                            </div>
-                                          {% endfor %}
-                                    {% endfor %}
-                                </table>
-                        </fieldset>
-                        <br><br>
-                        <div class="form-group">
-                            <button class="primary-btn" type="submit">Update</button>
-                        </div>
+                        {{ formset.as_p }}
+                        <button class="primary-btn" type="submit">Update</button>
                     </form>
 
                 </div>
