@@ -47,15 +47,12 @@
 					</div>
 					<div class="col-md-6">
 						<div class="product-body">
-							<div class="product-label">
-								<span>New</span>
-								<span class="sale">-20%</span>
-							</div>
+							
 							<h2 class="product-name">{{product.product_name}}</h2>
 							<h3 class="product-price">₹ {{product.product_discount}} <del class="product-old-price">₹ {{product.product_price}}</del></h3>
 							<h3 class="product-price"></h3>
 							
-							<p><strong>Availability:</strong> {{product.product_stock}}</p>
+							<p><strong>Availability:</strong> {% if product.product_stock == 0 %}<span class='out-of-stock'>Out of Stock</span>{% else %}{{product.product_stock}}{% endif %}</p>
 							<p><strong>Brand:</strong> {{product.product_brand}}</p>
 							<p>{{product.product_description}}</p>
 							

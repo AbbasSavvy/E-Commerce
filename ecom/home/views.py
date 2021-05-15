@@ -29,3 +29,14 @@ def product_detail(request, id, slug):
                'images':images,
                }
     return render(request, 'product_detail.html', context)
+
+def category_products(request, id, slug):
+    catdata = Category.objects.get(pk=id)
+    category = Category.objects.all()
+    products = Product.objects.filter(category=id)
+    context = {'category': category,
+               'catdata': catdata,
+               'product':products,
+               }
+    # return HttpResponse(products)
+    return render(request, 'category_products.html', context)

@@ -864,8 +864,9 @@ textarea.input {
 }
 
 .deals-images {
+	float: left;
 	object-fit: contain;
-	width: 200px;
+	/* width: 200px; */
 	height: 200px;
 }
 
@@ -953,9 +954,15 @@ textarea.input {
 \*----------------------------*/
 
 .product.product-single {
+	display: inline-block;
 	margin-top: 15px;
-	margin-bottom: 15px;
-	height: 400px;
+	-webkit-transition: 0.3s all;
+	transition: 0.3s all;
+}
+
+.product product-single category-product {
+	margin-top: 15px;
+	/* height: 200px; */
 	-webkit-transition: 0.3s all;
 	transition: 0.3s all;
 }
@@ -969,6 +976,8 @@ textarea.input {
 }
 
 .product.product-single .product-thumb {
+	float: left;
+	width: 50%;
 	position: relative;
 	margin-bottom: 15px;
 }
@@ -1038,6 +1047,7 @@ textarea.input {
 
 .product.product-single .product-price {
 	display: inline-block;
+	font-size: 20px;
 }
 
 .product.product-single .product-rating {
@@ -1046,7 +1056,7 @@ textarea.input {
 }
 
 .product.product-single .product-name {
-	font-size: 16px;
+	font-size: 24px;
 }
 
 .product.product-single .product-btns {
@@ -1340,6 +1350,14 @@ textarea.input {
 /*----------------------------*\
 	Product view
 \*----------------------------*/
+
+.out-of-stock {
+	color: red;
+}
+
+.cat-div {
+	margin-left: 10%;
+}
 
 #product-main-view .slick-arrow {
 	visibility: hidden;
