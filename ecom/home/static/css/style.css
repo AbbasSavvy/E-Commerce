@@ -535,34 +535,36 @@ textarea.input {
 	border-right: 1px solid #dadada;
 	border-bottom: 1px solid #dadada;
 	z-index: 50;
+	/*
 	-webkit-transition: 0.3s all;
-	transition: 0.3s all;
+	transition: 0.3s all;*/
 }
 
 .category-nav.show-on-click .category-list {
-	opacity: 0;
-	visibility: hidden;
+	opacity: 1;
+	/*
 	-webkit-transform: translate(0px, 15px);
 	-ms-transform: translate(0px, 15px);
-	transform: translate(0px, 15px);
+	transform: translate(0px, 15px);*/
 }
 
 .category-nav.show-on-click .category-list.open {
 	opacity: 1;
-	visibility: visible;
+	/*
 	-webkit-transform: translate(0px, 0px);
 	-ms-transform: translate(0px, 0px);
-	transform: translate(0px, 0px);
+	transform: translate(0px, 0px);*/
 }
 
 .category-nav .category-list > li + li {
 	border-top: 1px solid #dadada;
 }
-
+/*
 .category-nav .category-list > li.dropdown > .dropdown-toggle > i {
 	float: right;
 	line-height: 20px;
 }
+*/
 
 .category-nav .category-list > li > a {
 	display: block;
@@ -573,6 +575,7 @@ textarea.input {
 .category-nav .category-list > li > a:hover,
 .category-nav .category-list > li > a:focus,
 .category-nav .category-list > li.dropdown.open > a {
+	visibility: visible;
 	color: #3de8ff;
 }
 
@@ -821,17 +824,26 @@ textarea.input {
 	width: 100%;
 	margin-top: 15px;
 	margin-bottom: 15px;
+	text-shadow: 2px 2px #000000;
 }
 
-.banner > img {
-	width: fit-content;
+.slider-banner-image {
+	object-fit: cover;
 	height: 500px;
+	margin: auto;
+}
+
+#home-slick {
+	background-color: #00000025;
+	margin-left: 0.2%;
 }
 
 .banner.banner-1 .banner-caption {
 	position: absolute;
+	padding: 15px;
 	top: 50%;
 	left: 50%;
+	background-color: #00000025;
 	-webkit-transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
@@ -846,7 +858,20 @@ textarea.input {
 
 .banner h1 {
 	font-size: 46px;
+
+	color: white;
 	text-transform: uppercase;
+}
+
+.deals-images {
+	float: left;
+	object-fit: contain;
+	/* width: 200px; */
+	height: 200px;
+}
+
+.row {
+	width: 100%;
 }
 
 /*=========================================================
@@ -869,8 +894,8 @@ textarea.input {
 	06 -> PRODUCT
 ===========================================================*/
 
-.product .product-old-price {
-	color: #3de8ff;
+.product-old-price {
+	color: rgb(126, 126, 126);
 	font-size: 70%;
 }
 
@@ -929,8 +954,15 @@ textarea.input {
 \*----------------------------*/
 
 .product.product-single {
+	display: inline-block;
 	margin-top: 15px;
-	margin-bottom: 15px;
+	-webkit-transition: 0.3s all;
+	transition: 0.3s all;
+}
+
+.product product-single category-product {
+	margin-top: 15px;
+	/* height: 200px; */
 	-webkit-transition: 0.3s all;
 	transition: 0.3s all;
 }
@@ -944,6 +976,8 @@ textarea.input {
 }
 
 .product.product-single .product-thumb {
+	float: left;
+	width: 50%;
 	position: relative;
 	margin-bottom: 15px;
 }
@@ -1013,6 +1047,7 @@ textarea.input {
 
 .product.product-single .product-price {
 	display: inline-block;
+	font-size: 20px;
 }
 
 .product.product-single .product-rating {
@@ -1021,7 +1056,7 @@ textarea.input {
 }
 
 .product.product-single .product-name {
-	font-size: 16px;
+	font-size: 24px;
 }
 
 .product.product-single .product-btns {
@@ -1316,12 +1351,20 @@ textarea.input {
 	Product view
 \*----------------------------*/
 
+.out-of-stock {
+	color: red;
+}
+
+.cat-div {
+	margin-left: 10%;
+}
+
 #product-main-view .slick-arrow {
-	opacity: 0;
+	visibility: hidden;
 }
 
 #product-main-view:hover .slick-arrow {
-	opacity: 1;
+	visibility: hidden;
 }
 
 #product-view {
