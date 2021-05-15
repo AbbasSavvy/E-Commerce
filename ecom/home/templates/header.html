@@ -1,6 +1,8 @@
 	{% load static %}
 	<!-- HEADER -->
 	<header>
+
+
 		<!-- header -->
 		<div id="header">
 			<div class="container">
@@ -28,62 +30,31 @@
 						<!-- Account -->
 						<li class="header-account dropdown default-dropdown">
 							{% if user.id is not None %}
-								<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
-									<strong class="text-uppercase">{{ user.first_name }}<i class="fa fa-caret-down"></i></strong>
+								<div class="dropdown-toggle ok1" role="button" data-toggle="dropdown" aria-expanded="true">
+									<strong class="text-uppercase">{{ user.first_name }}   <i class="fa fa-caret-down"></i></strong>
 								</div>
 							{% else %}
 								<a href="{% url 'login' %}" class="text-uppercase">Login</a><br><a href="{% url 'signup' %}" class="text-uppercase">Sign Up</a>
 							{% endif %}
 							<ul class="custom-menu">
-								<li><a href="/user"><i class="fa fa-user-o"></i> My Account</a></li>
-								<li><a href="{% url 'logout' %}"><i class="fa fa-unlock-alt"></i>Logout</a></li>
+								<li><a href="/user"><i class="fa fa-user"></i> My Account</a></li>
+								<li><a href="{% url 'logout' %}"><i class="fa fa-unlock-alt"></i> Logout</a></li>
 							</ul>
 						</li>
 						<!-- /Account -->
 
 						<!-- Cart -->
-						<li class="header-cart dropdown default-dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-								<div class="header-btns-icon">
-									<i class="fa fa-shopping-cart"></i>
-									<span class="qty">3</span>
-								</div>
-								<strong class="text-uppercase">My Cart:</strong>
-								<br>
-								<span>35.20$</span>
-							</a>
-							<div class="custom-menu">
-								<div id="shopping-cart">
-									<div class="shopping-cart-list">
-										<div class="product product-widget">
-											<div class="product-thumb">
-												<img src="{% static '' %}img/thumb-product01.jpg" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-												<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-											</div>
-											<button class="cancel-btn"><i class="fa fa-trash"></i></button>
-										</div>
-										<div class="product product-widget">
-											<div class="product-thumb">
-												<img src="{% static '' %}img/thumb-product01.jpg" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-												<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-											</div>
-											<button class="cancel-btn"><i class="fa fa-trash"></i></button>
-										</div>
-									</div>
-									<div class="shopping-cart-btns">
-										<button class="main-btn">View Cart</button>
-										<button class="primary-btn">Checkout <i class="fas fa-shopping-cart"></i></button>
-									</div>
-								</div>
-							</div>
-						</li>
-						<!-- /Cart -->
+						{% if user.id is not None %}
+                    <li class="header-cart dropdown default-dropdown">
+                        <a href="{% url 'shopcart'%}" >
+                            <div class="header-btns-icon">
+                                <i class="fa fa-shopping-cart"></i>
+                            </div>
+                            <br>
+                        </a>
+                    </li>
+						{% endif %}
+                    <!-- /Cart -->
 
 						<!-- Mobile nav toggle-->
 						<li class="nav-toggle">

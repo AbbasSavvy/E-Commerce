@@ -33,9 +33,10 @@
 									<h3 class="product-price">₹ {{product.product_discount}} <del class="product-old-price">₹ {{product.product_price}}</del></h3>
 									
 									<h2 class="product-name"><a href="/product/{{product.id}}/{{product.slug}}">{{product.product_name}}</a></h2>
-									<div class="product-btns">
-										<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-									</div>
+									{% if product.product_stock >= 1  %}
+										{% csrf_token %}
+									<a href="{% url "addtoshopcart" product.id  %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+									{% endif %}
 								</div>
 							</div>
 							{%endfor%}
