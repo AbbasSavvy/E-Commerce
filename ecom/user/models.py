@@ -19,7 +19,7 @@ class User1Profile(models.Model):
 
 class User2Profile(models.Model):
     phone = models.CharField(blank=True, max_length=20)
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    user=models.ForeignKey(User,on_delete=models.CASCADE,)
 
 
     def __str__(self):
