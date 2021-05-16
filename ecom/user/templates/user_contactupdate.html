@@ -37,10 +37,47 @@
                         </div>
                     </div>
 
+                    <br><h3 class="title">You Can Edit or delete saved Numbers</h3><br><br>
                     <form method="POST">
                         {% csrf_token %}
-                        {{ formset.as_p }}
-                        <button class="primary-btn" type="submit">Update</button>
+                        {{ formset.management_form }}
+                        {{ formset.non_form_errors }}
+                        <div>
+                        {% for form in formset %}
+                            {% if forloop.last %}
+                                <br><h3 class="title">You May add more Numbers</h3><br><br>
+                                {% for field in form %}
+                                    {% if not "Delete:" in field.label_tag %}
+                                    {% if not "Id:" in field.label_tag %}
+                                        {% if not forloop.last %}
+                                            {{ field.errors }}
+                                            <div style="width:80%; margin-left:20%">
+                                                <div style="width:30%; float:left;"><p style="display:inline;">{{ field.label_tag }}</p></div>
+                                                <div style="width:35%; float:left;"><p style="display:inline;">{{ field }}</p></div><br>
+                                            </div><br>
+                                        {%endif%}
+                                    {%endif%}
+                                    {%endif%}
+                                {% endfor %}
+                            {% else %}
+                            <div><h4 class="title">Contact Number {{forloop.counter}}</h4></div>
+                                {% for field in form %}
+                                    {% if not "Id:" in field.label_tag %}
+                                        {% if not forloop.last %}
+                                            {{ field.errors }}
+                                            <div style="width:80%; margin-left:20%">
+                                                <div style="width:30%; float:left;"><p style="display:inline;">{{ field.label_tag }}</p></div>
+                                                <div style="width:35%; float:left;"><p style="display:inline;">{{ field }}</p></div><br><br>
+                                            </div>
+                                        {%endif%}
+                                    {% else %}
+                                        {{ field.errors }}{{ field }}
+                                    {%endif%}
+                                 {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                        </div><br><br>
+                        <div><button class="primary-btn" type="submit" style="margin-left:40%;" >Save the Changes</button></div>
                     </form>
 
                 </div>

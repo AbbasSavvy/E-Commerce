@@ -129,6 +129,9 @@ def user_addressupdate(request):
     print("2")
     category = Category.objects.all()
     formset = chilFormset(instance=pare)
+    for form in formset:
+        for fields in form:
+            fields.field.widget.attrs['style'] = 'width:700px; height:25px;'
     context = {
         'category': category,
         'formset': formset

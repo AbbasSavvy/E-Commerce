@@ -41,6 +41,7 @@
                         {% csrf_token %}
                         <fieldset class="form-group">
                                                     {% for field in user_form %}
+                            {% if not forloop.last %}
                             <p>
                                 {{ field.label_tag }}<br>
                                 {{ field }}
@@ -51,6 +52,7 @@
                                     <p style="color: red">{{ error }}</p>
                                 {% endfor %}
                             </p>
+                            {% endif %}
                         {% endfor %}
                         </fieldset>
                         <div class="form-group">

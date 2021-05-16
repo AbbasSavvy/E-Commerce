@@ -10,10 +10,6 @@ from cart.models import ShopCart, ShopCartForm
 from product.models import Category, Product
 from user.models import User1Profile, User2Profile
 
-# Create your views here.
-def index(request):
-    return HttpResponse("order Page")
-
 @login_required(login_url='/login') # Check login
 def addtoshopcart(request,id):
     url = request.META.get('HTTP_REFERER')  # get last url
