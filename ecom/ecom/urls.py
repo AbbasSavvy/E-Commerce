@@ -19,6 +19,7 @@ from django.urls import path, include
 
 from ecom import settings
 from user import views as UserViews
+from cart import views as CartViews
 from home import views
 
 
@@ -28,10 +29,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('product/', include('product.urls')),
     path('user/', include('user.urls')),
+    path('cart/', include('cart.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+
     path('login/', UserViews.login_form, name='login'),
     path('logout/', UserViews.logout_func, name='logout'),
     path('signup/', UserViews.newsignup, name='signup'),
+    path('shopcart/', CartViews.shopcart, name='shopcart'),
+
     path('category/<int:id>/<slug:slug>/', views.category_products, name='category_products'),
     path('product/<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
 ]
