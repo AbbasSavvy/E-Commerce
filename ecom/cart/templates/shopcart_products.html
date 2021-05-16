@@ -53,7 +53,18 @@
                                     <td class="price text-center"><strong>
                                         {{ rs.product.product_discount }}
                                     </strong></td>
-                                    <td class="qty text-center"><strong>{{rs.quantity}}</strong></td>
+                                    <td class="qty text-center">
+                                        {% if rs.quantity > 0  %}
+                                        <a href="/cart/reduceproduct/{{ rs.product.id }}/{{ rs.id }}" onclick="return confirm('Delete ! Are you sure?')" ><i class="fa fa-minus"></i></a>
+                                        {% endif %}
+                                        <p style="display:inline ; margin-left:6%; margin-right:6% "><strong>{{rs.quantity}}</strong></p>
+                                        {% if rs.product.product_stock > rs.quantity  %}
+                                        {% if rs.product.product_stock >= 1  %}
+                                            {% csrf_token %}
+                                            <a href="/cart/addproduct/{{ rs.product.id }}" onclick="return confirm('Add?? Are you sure')" ><i class="fa fa-plus"></i></a>
+                                        {% endif %}
+                                        {% endif %}
+                                    </td>
                                     <td class="total text-center"><strong class="primary-color">
                                         Rs. {{ rs.amount }}
                                     </strong></td>
