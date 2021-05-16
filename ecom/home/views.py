@@ -1,3 +1,6 @@
+from django.db.models import query
+from django.http.response import HttpResponseRedirect
+from home.forms import SearchForm
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -40,3 +43,26 @@ def category_products(request, id, slug):
                }
     # return HttpResponse(products)
     return render(request, 'category_products.html', context)
+
+
+def search(request):
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            catid = form.cleaned_data['catid']
+
+            if catid == 0:
+                products = Product.objects.filter(product_name__icontains=query)
+            else:
+                products = Product.objects.filter(product_name__icontains=query, category=catid)
+
+            category = Category.objects.all()
+            context = {
+                'products': products,
+                'category': category,}
+
+            return render(request, 'search_product.html', context)
+        
+    return HttpResponseRedirect('/')
+                    
