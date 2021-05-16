@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import query
 from django.http.response import HttpResponseRedirect
 from home.forms import SearchForm
@@ -36,7 +37,15 @@ def product_detail(request, id, slug):
 def category_products(request, id, slug):
     catdata = Category.objects.get(pk=id)
     category = Category.objects.all()
-    products = Product.objects.filter(category=id)
+    all_prods = Product.objects.filter(category=id)
+    page = request.GET.get('page',1)
+    paginator = Paginator(all_prods,2)
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
     context = {'category': category,
                'catdata': catdata,
                'product':products,
