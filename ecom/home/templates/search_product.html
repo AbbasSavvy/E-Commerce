@@ -1,0 +1,63 @@
+{% extends 'homeBase.html' %}
+{% block title %} {{ query }} Results {% endblock %}
+{% block categories %} {% include 'categories.html' %} {% endblock %}
+{% block body %}
+
+{% load static %}
+
+<!-- BREADCRUMB -->
+	<div id="breadcrumb">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a href="/">Home</a></li>
+				<li class="active">Products</li>
+			</ul>
+		</div>
+	</div>
+	<!-- /BREADCRUMB -->
+
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+
+				<!-- MAIN -->
+				<div id="main" class="col-md-9">
+					
+							<!-- Product Single -->
+							<div class='cat-div'>
+                            {% for product in products %}
+                                    <div class="product product-single category-product">
+                                        <div class="product-thumb">
+                                            <a href="/product/{{product.id}}/{{product.slug}}" class="main-btn quick-view" ><i class="fa fa-search-plus"></i> Quick view</a>
+                                            <img class="deals-images category-image" src="{{product.product_image.url}}" alt="{{product.product_image.url}}">
+                                        </div>
+                                        <div class="product-body">
+                                            <h2 class="product-name"><a href="/product/{{product.id}}/{{product.slug}}">{{product.product_name}}</a></h2>
+                                            <h3 class="product-price">₹ {{product.product_discount}} <del class="product-old-price">₹ {{product.product_price}}</del></h3>
+                                            <p><strong> {% if product.product_stock == 0 %}<span class='out-of-stock'>Out of Stock</span>{% else %}In Stock{% endif %}</strong></p>
+                                        	{% if product.product_stock >= 1  %}
+												{% csrf_token %}
+											<a href="{% url "addtoshopcart" product.id  %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+											{% endif %}
+                                        </div>
+                                    </div>
+                                
+                                {% endfor %}
+							</div>
+					<!-- /store bottom filter -->
+				</div>
+				<!-- /MAIN -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+
+{% endblock %}
+{% block botButton %}{% include 'botButton.html' %}{% endblock  %}
+{% block footer %}{% include 'footer.html' %}{% endblock %}
