@@ -117,7 +117,7 @@ def user_addressupdate(request):
     current_user = request.user  # Access User Session information
     ty = current_user.id
     pare=User.objects.get(pk=ty)
-    chilFormset = inlineformset_factory(User, User1Profile, fields=('address','city','state','pin_code','country',), extra=1,)
+    chilFormset = inlineformset_factory(User, User1Profile, fields=('address', 'city', 'state', 'pin_code', 'country',),extra=1,)
     if request.method == 'POST':
         print("1")
         formset = chilFormset(request.POST, instance=pare)
