@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'mptt',
     'widget_tweaks',
     'crispy_forms',
+    'dajaxice',
+    'dajax',
 ]
 
 MIDDLEWARE = [

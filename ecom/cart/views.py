@@ -2,13 +2,17 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-
+from django.urls import reverse
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
 # Create your views here.
 from django.utils.crypto import get_random_string
 
-from cart.models import ShopCart, ShopCartForm
+from cart.models import *
 from product.models import Category, Product
 from user.models import User1Profile, User2Profile
+
+from .forms import *
 
 @login_required(login_url='/login') # Check login
 def addtoshopcart(request,id):
@@ -73,13 +77,20 @@ def addtoshopcart(request,id):
                 messages.info(request, "Out of Stock.")
         return HttpResponseRedirect(url)
 
+@login_required(login_url='/login') # Check login
 def shopcart(request):
     category = Category.objects.all()
     current_user = request.user  # Access User Session information
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
     total=0
     for rs in shopcart:
+        if rs.quantity > rs.product.product_stock:
+            if rs.product.product_stock>0:
+                rs.quantity=rs.product.product_stock
+            else:
+                rs.delete()
         total += rs.product.product_discount * rs.quantity
+        rs.save()
     #return HttpResponse(str(total))
     context={'shopcart': shopcart,
              'category':category,
@@ -117,3 +128,111 @@ def reduceproduct(request,id1,id2):
     else:
         messages.success(request, "Product reduced from Shopcart")
     return HttpResponseRedirect("/shopcart")
+
+@login_required(login_url='/login') # Check login
+def orderproduct(request):
+    category = Category.objects.all()
+    current_user = request.user
+    shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    total = 0
+    for rs in shopcart:
+        total += rs.product.product_discount * rs.quantity
+
+    if request.method == 'POST':  # if there is a post
+        form = OrderForm(request.POST)
+        #return HttpResponse(request.POST.items())
+        if form.is_valid():
+            data = Order()
+            selection = form.data['addoptionselection']
+            selection2 = form.data['phoneoptionselection']
+            print(selection)
+            print(selection2)
+            data.first_name = current_user.first_name
+            data.last_name = current_user.last_name
+            data.address = User1Profile.objects.values_list('address', flat=True).get(id=selection)
+            data.city = User1Profile.objects.values_list('city', flat=True).get(id=selection)
+            data.pin_code = User1Profile.objects.values_list('pin_code', flat=True).get(id=selection)
+            data.state = User1Profile.objects.values_list('state', flat=True).get(id=selection)
+            data.country = User1Profile.objects.values_list('country', flat=True).get(id=selection)
+            data.phone = User2Profile.objects.values_list('phone', flat=True).get(id=selection2)
+            data.user_id = current_user.id
+            data.delivery_type = form.data['deloptionselection']
+            print(total)
+            if data.delivery_type == "Express Delivery":
+                data.delivery_charge = 10
+            else:
+                data.delivery_charge = 0
+            total=total+data.delivery_charge
+            data.paymentmethod = form.cleaned_data['paymethodselection']
+            data.total = total
+            print(total)
+            data.ip = request.META.get('REMOTE_ADDR')
+            ordercode= get_random_string(5).upper() # random cod
+            data.code = ordercode
+            data.save()
+
+            for rs in shopcart:
+                detail = OrderProduct()
+                detail.order_id     = data.id # Order Id
+                detail.product_id   = rs.product_id
+                detail.user_id      = current_user.id
+                detail.quantity     = rs.quantity
+                detail.price    = rs.product.product_discount
+                asf = rs.product.product_discount*rs.quantity
+                detail.amount        = asf
+                detail.save()
+                product = Product.objects.get(id=rs.product_id)
+                product.product_stock -= rs.quantity
+                product.save()
+                #************ <> *****************
+
+            ShopCart.objects.filter(user_id=current_user.id).delete() # Clear & Delete shopcart
+            request.session['cart_items']=0
+            messages.success(request, "Your Order has been completed. Thank you ")
+            #return render(request, 'Order_Completed.html',{'ordercode':ordercode,'category': category})
+            return HttpResponseRedirect(reverse("ordercompleted"))
+        else:
+            messages.warning(request, form.errors)
+            print(form.errors)
+            return HttpResponseRedirect(reverse("/cart/orderproduct"))
+
+
+    tform = OrderForm()
+    count1 = User1Profile.objects.filter(user_id=current_user.id).count()
+    count2 = User2Profile.objects.filter(user_id=current_user.id).count()
+    print(count1)
+    print(count2)
+    print(current_user.id)
+    count3=shopcart.count()
+    print(count3)
+    if count3 < 1 and count1>0 and count2>0:
+        return HttpResponseRedirect("/shopcart/")
+    elif count1>0 and count2>0:
+        tform.fields['addoptionselection'].queryset = User1Profile.objects.filter(user_id=current_user.id)
+        tform.fields['phoneoptionselection'].queryset = User2Profile.objects.filter(user_id=current_user.id)
+        #tform.fields['addoptionselection'].to_field_name = "id"
+        tform.fields['addoptionselection'].widget.attrs['style'] = 'width:300px; height:25px;'
+        profile1 = User1Profile.objects.filter(user_id=current_user.id)
+        profile2 = User2Profile.objects.filter(user_id=current_user.id)
+        context = {'shopcart': shopcart,
+                   'category': category,
+                   'total': total,
+                   'form': tform,
+                   'profile1': profile1,
+                   'profile2': profile2,
+                   'count3':count3,
+                   }
+        return render(request, 'Order_Form.html', context)
+    else:
+        context = {
+                   'category': category,
+                   }
+        return render(request, 'Enter Address or Contact.html',context)
+
+
+
+@login_required(login_url='/login') # Check login
+def ordercompleted(request):
+
+    category = Category.objects.all()
+    return render(request, 'Order_Completed.html',{'category': category})
