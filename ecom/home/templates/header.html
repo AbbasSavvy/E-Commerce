@@ -53,7 +53,8 @@
 										<strong class="text-uppercase">{{ user.first_name }}   <i class="fa fa-caret-down"></i></strong>
 									</div>
 								{% else %}
-									<a href="{% url 'login' %}" class="text-uppercase">Login</a><br><a href="{% url 'signup' %}" class="text-uppercase">Sign Up</a>
+									<a class="btn" href="{% url 'login' %}" class="text-uppercase">Login <img src="{% static '' %}img/login.png"></img></a>
+									<a class="btn" href="{% url 'signup' %}" class="text-uppercase">Sign Up <img src="{% static '' %}img/add-user.png"></img></a>
 								{% endif %}
 								<ul class="custom-menu">
 									<li><a href="/user"><i class="fa fa-user"></i> My Account</a></li>
