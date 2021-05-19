@@ -21,7 +21,9 @@ from ecom import settings
 from user import views as UserViews
 from cart import views as CartViews
 from home import views
+from user import views as uviews
 
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', include('home.urls')),
@@ -36,10 +38,15 @@ urlpatterns = [
     path('logout/', UserViews.logout_func, name='logout'),
     path('signup/', UserViews.newsignup, name='signup'),
     path('shopcart/', CartViews.shopcart, name='shopcart'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="registration/password_reset_confirm.html"), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
+    path("password_reset", uviews.password_reset_request, name="password_reset"),
 
     path('category/<int:id>/<slug:slug>/', views.category_products, name='category_products'),
     path('product/<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
     path('search/', views.search, name='search'),
+
 ]
 
 if settings.DEBUG:
