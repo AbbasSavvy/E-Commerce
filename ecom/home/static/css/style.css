@@ -1017,6 +1017,7 @@ textarea.input {
 	margin-top: 15px;
 	-webkit-transition: 0.3s all;
 	transition: 0.3s all;
+	width: 100%;
 }
 
 .body-product-single {
