@@ -1,4 +1,4 @@
-{% extends 'homeBase.html' %}
+{% extends 'homeBase2.html' %}
 
 {% block title %} User Login  {{ setting.title }} {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
@@ -33,24 +33,18 @@
                             <h3 class="title">Login Form</h3>
                         </div>
 
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div class="alert alert-{{message.tags}}" role="alert">
-                                    {{ message }}
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-
                         <form action="" method="post">
                             {% csrf_token %}
                            <div class="form-group">
-								<input class="input" type="text" name="username" placeholder="First Name">
+								<input class="input" type="text" name="username" placeholder="Username">
 							</div>
 							<div class="form-group">
 								<input class="input" type="password" name="password" placeholder="Password">
 							</div>
-                            <input type="submit" value="Login">
+                            <input type="submit" value="Login" class="primary-btn">
                         </form>
+						<br>
+						<a href="{% url 'password_reset' %}"  type="button" class="primary-btn">Forgot Password</a>
 
                     </div>
                 </div>

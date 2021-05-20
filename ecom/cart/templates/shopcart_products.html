@@ -82,19 +82,16 @@
                             </tr>
                             <tr>
                                 <th class="empty" colspan="3"></th>
-                                <th>SHIPING</th>
-                                <td colspan="2">Free Shipping</td>
-                            </tr>
-                            <tr>
-                                <th class="empty" colspan="3"></th>
                                 <th>TOTAL</th>
                                 <th colspan="2" class="total">{{ total }} </th>
                             </tr>
                             </tfoot>
                         </table>
+                        {%if total > 0 %}
                         <div class="pull-right">
-                            <a href="/" class="primary-btn">Place Order</a>
+                            <a href="{% url 'orderproduct' %}" class="primary-btn">Delivery Details</a>
                         </div>
+                        {%endif%}
                     </div>
 
                 </div>

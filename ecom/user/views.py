@@ -1,11 +1,21 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
 from django.utils.decorators import method_decorator
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
-
+from django.shortcuts import render, redirect
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
 from django.views.generic.list import ListView
 from django.forms import inlineformset_factory
 
@@ -19,7 +29,7 @@ from django.db import transaction
 from django.utils import translation
 from product.models import Category
 from user.models import User, User1Profile, User2Profile
-
+from cart.models import *
 
 @login_required(login_url='/login')
 def index(request):
@@ -52,6 +62,7 @@ def login_form(request):
     context = {'category': category}
     return render(request, 'login_form.html', context)
 
+@login_required(login_url='/login') # Check login
 def logout_func(request):
     logout(request)
     return HttpResponseRedirect('/')
@@ -138,7 +149,7 @@ def user_addressupdate(request):
     }
     return render(request, 'user_addressupdate.html', context)
 
-login_required(login_url='/login')
+@login_required(login_url='/login')
 def password_update(request):
     return HttpResponse('User Update')
 
@@ -181,3 +192,73 @@ def user_password(request):
                        })
 
 
+
+@login_required(login_url='/login') # Check login
+def user_orders(request):
+    category = Category.objects.all()
+    current_user = request.user
+    orders=Order.objects.filter(user_id=current_user.id)
+    context = {'category': category,
+               'orders': orders,
+               }
+    return render(request, 'user_orders.html', context)
+
+@login_required(login_url='/login') # Check login
+def user_orderdetail(request,id):
+    category = Category.objects.all()
+    current_user = request.user
+    order = Order.objects.get(user_id=current_user.id, id=id)
+    orderitems = OrderProduct.objects.filter(order_id=id)
+    context = {
+        'category': category,
+        'order': order,
+        'orderitems': orderitems,
+    }
+    return render(request, 'user_order_detail.html', context)
+
+@login_required(login_url='/login') # Check login
+def user_order_product(request):
+    category = Category.objects.all()
+    current_user = request.user
+    order_product = OrderProduct.objects.filter(user_id=current_user.id).order_by('-id')
+    profile1 = User1Profile.objects.filter(user_id=current_user.id)
+    profile2 = User2Profile.objects.filter(user_id=current_user.id)
+    context = {'category': category,
+               'order_product': order_product,
+               'profile1': profile1,
+               'profile2': profile2,
+               }
+    return render(request, 'user_order_products.html', context)
+
+
+def password_reset_request(request):
+    print("1111111111111111111111111111111111111111111111111111")
+    if request.method == "POST":
+        password_reset_form = PasswordResetForm(request.POST)
+        if password_reset_form.is_valid():
+            data = password_reset_form.cleaned_data['email']
+            associated_users = User.objects.filter(Q(email=data))
+            if associated_users.exists():
+                for user in associated_users:
+                    subject = "Password Reset Requested"
+                    email_template_name = "registration/password_reset_email.txt"
+                    current_site = get_current_site(request)
+                    c = {
+                    "email":user.email,
+                    'domain':current_site.domain,
+                    'site_name': 'Personal Shopper',
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "user": user,
+                    'token': default_token_generator.make_token(user),
+                    'protocol': 'http',
+                    }
+                    email = render_to_string(email_template_name, c)
+                    try:
+                        send_mail(subject, email, 'personalshopper.ibm@gmail.com', [user.email], fail_silently=False)
+                    except BadHeaderError:
+                        return HttpResponse('Invalid header found.')
+                    return redirect ("/password_reset/done/")
+            else:
+                return render(request, 'registration/NosuchEmail.html')
+    password_reset_form = PasswordResetForm()
+    return render(request=request, template_name="registration/password_reset_form.html", context={"password_reset_form":password_reset_form})

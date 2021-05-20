@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'mptt',
     'widget_tweaks',
     'crispy_forms',
+    'dajaxice',
+    'dajax',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +151,13 @@ CKEDITOR_CONFIGS = {
 }
 
 ###################################
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'personalshopper.ibm@gmail.com'
+EMAIL_HOST_PASSWORD = 'Ok12Ok43@'
+
+DEFAULT_FROM_EMAIL = 'personalshopper.ibm@gmail.com'
