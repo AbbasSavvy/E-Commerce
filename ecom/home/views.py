@@ -38,14 +38,17 @@ def category_products(request, id, slug):
     catdata = Category.objects.get(pk=id)
     category = Category.objects.all()
     all_prods = Product.objects.filter(category=id)
-    page = request.GET.get('page',1)
-    paginator = Paginator(all_prods,2)
-    try:
-        products = paginator.page(page)
-    except PageNotAnInteger:
-        products = paginator.page(1)
-    except EmptyPage:
-        products = paginator.page(paginator.num_pages)
+    if all_prods.count()>0:
+        page = request.GET.get('page', 1)
+        paginator = Paginator(all_prods, 2)
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+    else:
+        products = Product.objects.filter(category=id)
     context = {'category': category,
                'catdata': catdata,
                'product':products,
