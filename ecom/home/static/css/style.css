@@ -744,6 +744,26 @@ textarea.input {
 	Mobile nav
 \*----------------------------*/
 
+.pull-left-3 {
+	padding-left: 30px;
+	margin-top: 28px;
+}
+
+.pull-right-3 {
+	padding-right: 45px;
+	margin-top: 20px;
+}
+
+#special-hr {
+	width: 100%;
+	margin-top: 75px;
+}
+
+.breadcrumb-2 {
+	margin-top: 50px;
+	/* padding-top: 0; */
+}
+
 #header .nav-toggle {
 	display: none;
 }
@@ -997,6 +1017,7 @@ textarea.input {
 	margin-top: 15px;
 	-webkit-transition: 0.3s all;
 	transition: 0.3s all;
+	width: 100%;
 }
 
 .body-product-single {
@@ -1761,7 +1782,11 @@ textarea.input {
 ===========================================================*/
 
 .footer {
-	margin: 15px auto;
+	/* margin: 15px auto; */
+	margin-top: 1000px;
+	position: fixed;
+	left: 0;
+	bottom: 0;
 }
 
 .footer .footer-header {
