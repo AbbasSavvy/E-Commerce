@@ -24,6 +24,12 @@ from home import views
 from user import views as uviews
 
 from django.contrib.auth import views as auth_views
+from django.conf.urls import url
+from django.contrib import admin
+
+admin.site.site_header = 'PERSONAL SHOPPER'
+admin.site.site_title = 'ADMIN'
+admin.site.index_title = 'PANEL'
 
 urlpatterns = [
     path('', include('home.urls')),
