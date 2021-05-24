@@ -56,6 +56,11 @@ Table OF Contents
 	01 -> GENERAL
 ===========================================================*/
 
+.botButton {
+	position: absolute;
+	z-index: 1000;
+}
+
 /*----------------------------*\
 	Typography
 \*----------------------------*/
@@ -1781,12 +1786,30 @@ textarea.input {
 	10 -> FOOTER
 ===========================================================*/
 
+.at-symbol {
+	font-family: "Arial";
+}
+
+.copyright-symbol {
+	font-size: 1.1em;
+}
+
+.section1 {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	border-top: 1px solid #d8d8d8;
+}
+
 .footer {
-	/* margin: 15px auto; */
-	margin-top: 1000px;
 	position: fixed;
 	left: 0;
 	bottom: 0;
+}
+
+.fixed-footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
 }
 
 .footer .footer-header {
@@ -1820,9 +1843,10 @@ textarea.input {
 }
 
 .footer-copyright {
-	margin-top: 15px;
+	/* margin-top: 15px; */
 	text-transform: uppercase;
 	font-size: 14px;
+	/* padding-bottom: 15px; */
 }
 
 /*=========================================================
