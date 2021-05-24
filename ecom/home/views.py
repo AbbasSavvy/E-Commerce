@@ -77,4 +77,43 @@ def search(request):
             return render(request, 'search_product.html', context)
         
     return HttpResponseRedirect('/')
-                    
+
+from django.views.decorators.csrf import csrf_exempt
+
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
+
+chatbot = ChatBot('Ron Obvious')
+
+# Create a new trainer for the chatbot
+trainer = ChatterBotCorpusTrainer(chatbot)
+
+# Train the chatbot based on the english corpus
+trainer.train("chatterbot.corpus.english.greetings")
+
+# Train based on the english corpus
+
+#Already trained and it's supposed to be persistent
+#chatbot.train("chatterbot.corpus.english")
+
+@csrf_exempt
+def get_response(request):
+	if request.method == 'POST':
+		data = request.body.decode('utf-8')
+		data = data[4:]
+		print(data)
+		if (data.find('+')>-1):
+			data = data[::-1]
+			data = data[3:]
+			data = data[::-1]
+		chat_response = chatbot.get_response(data).text
+		print(chatbot.get_response(data).text)
+
+	else:
+		chat_response = "No response"
+
+	return HttpResponse(str(chat_response))
+
+
+def home(request, template_name="home.html"):
+	return render(request, template_name)

@@ -45,8 +45,7 @@ INSTALLED_APPS = [
     'mptt',
     'widget_tweaks',
     'crispy_forms',
-    'dajaxice',
-    'dajax',
+    'chatterbot.ext.django_chatterbot',
 ]
 
 MIDDLEWARE = [
