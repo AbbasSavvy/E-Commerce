@@ -13,7 +13,8 @@
         <div class="container">
             <ul class="breadcrumb">
                 <li><a href="/">Home</a></li>
-                <li class="active">User Contact Update</li>
+                <li><a href="/user/managepayment">Manage Payments</a></li>
+                <li class="active">Paytm Number Update</li>
             </ul>
         </div>
     </div>
@@ -33,7 +34,7 @@
                 <div class="col-md-9">
                     <div class="billing-details">
                         <div class="section-title">
-                            <h3 class="title">User Address Update</h3>
+                            <h3 class="title">Paytm Number Update</h3>
                         </div>
                     </div>
 
@@ -42,7 +43,7 @@
                         {{ formset.management_form }}
                         {{ formset.non_form_errors }}
                         {% if formset.total_form_count > 1 %}
-                        <br><h3 class="title">You Can Edit or delete saved contact numbers.</h3><br><br>
+                        <br><h3 class="title">You Can Edit or delete saved Numbers.</h3><br><br>
                         {%endif%}
                         <div>
                         {% for form in formset %}
@@ -52,7 +53,7 @@
                             {% else%}
                                 <br><h3 class="title">Please Fill the following details. </h3><br><br>
                             {%endif%}
-                            {% for field in form %}
+                                {% for field in form %}
                                     {% if not "Delete:" in field.label_tag %}
                                     {% if not "Id:" in field.label_tag %}
                                         {% if not forloop.last %}
@@ -66,7 +67,7 @@
                                     {%endif%}
                                 {% endfor %}
                             {% else %}
-                            <div><h4 class="title">Contact Number {{forloop.counter}}</h4></div>
+                            <div><h4 class="title">Paytm Number {{forloop.counter}}</h4></div>
                                 {% for field in form %}
                                     {% if not "Id:" in field.label_tag %}
                                         {% if not forloop.last %}

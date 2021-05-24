@@ -13,10 +13,7 @@ class OrderForm(forms.Form):
     CHOICES = [('Express Delivery', 'Express Delivery'),
                ('Regular Delivery(FREE)', 'Regular Delivery(FREE)')]
     deloptionselection = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect(attrs={'onclick':'dislaydeliverycharge()'}))
-    paymethodselection = forms.ChoiceField(choices=[('Credit Card', 'Credit Card'),
-        ('Debit Card', 'Debit Card'),
-        ('Paytm', 'Paytm'),
-        ('UPI ID', 'UPI ID')])
+    paymethodselection = forms.ChoiceField(choices=[])
     def __init__(self, *args, **kwargs):
         #self.tyy = (kwargs.pop('tyy', None))
         super(OrderForm, self).__init__(*args, **kwargs)

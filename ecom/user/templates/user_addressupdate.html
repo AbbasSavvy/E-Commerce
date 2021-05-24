@@ -38,16 +38,22 @@
                             <h3 class="title">User Address Update</h3>
                         </div>
                     </div>
-                    <br><h3 class="title">You Can Edit or delete saved addresses</h3><br><br>
                     <form method="POST">
                         {% csrf_token %}
                         {{ formset.management_form }}
                         {{ formset.non_form_errors }}
+                        {% if formset.total_form_count > 1 %}
+                        <br><h3 class="title">You Can Edit or delete saved addresses.</h3><br><br>
+                        {%endif%}
                         <div>
                         {% for form in formset %}
                             {% if forloop.last %}
-                                <br><h3 class="title">You May add more Addressess</h3><br><br>
-                                {% for field in form %}
+                            {% if formset.total_form_count > 1 %}
+                                <br><h3 class="title">You May add more addresses. </h3><br><br>
+                            {% else%}
+                                <br><h3 class="title">Please Fill the following details.</h3><br><br>
+                            {%endif%}
+                            {% for field in form %}
                                     {% if not "Delete:" in field.label_tag %}
                                     {% if not "Id:" in field.label_tag %}
                                         {% if not forloop.last %}

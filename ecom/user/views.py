@@ -262,3 +262,99 @@ def password_reset_request(request):
                 return render(request, 'registration/NosuchEmail.html')
     password_reset_form = PasswordResetForm()
     return render(request=request, template_name="registration/password_reset_form.html", context={"password_reset_form":password_reset_form})
+
+
+def user_managepayment(request):
+    return render(request=request, template_name="managepayment.html")
+
+
+def ccuser_managepayment(request):
+    current_user = request.user  # Access User Session information
+    ty = current_user.id
+    pare=User.objects.get(pk=ty)
+    chilFormset = inlineformset_factory(User, User3Profile, fields=('ccardnumber', 'cexpmonth', 'cexpyear', 'cnameoncard', 'ccvv',),extra=1,)
+    if request.method == 'POST':
+        print("1")
+        formset = chilFormset(request.POST, instance=pare)
+        if formset.is_valid():
+            formset.save()
+            print("3")
+            messages.success(request, 'Your account has been updated!')
+            return redirect('index')
+    print("2")
+    category = Category.objects.all()
+    formset = chilFormset(instance=pare)
+    for form in formset:
+        for fields in form:
+            fields.field.widget.attrs['style'] = 'width:400px; height:25px;'
+    context = {
+        'category': category,
+        'formset': formset
+    }
+    return render(request, 'user_creditcardupdate.html', context)
+
+
+def dcuser_managepayment(request):
+    current_user = request.user  # Access User Session information
+    ty = current_user.id
+    pare=User.objects.get(pk=ty)
+    chilFormset = inlineformset_factory(User, User4Profile, fields=('dcardnumber', 'dexpmonth', 'dexpyear', 'dnameoncard', 'dcvv',),extra=1,)
+    if request.method == 'POST':
+        print("1")
+        formset = chilFormset(request.POST, instance=pare)
+        if formset.is_valid():
+            formset.save()
+            print("3")
+            messages.success(request, 'Your account has been updated!')
+            return redirect('index')
+    print("2")
+    category = Category.objects.all()
+    formset = chilFormset(instance=pare)
+    for form in formset:
+        for fields in form:
+            fields.field.widget.attrs['style'] = 'width:400px; height:25px;'
+    context = {
+        'category': category,
+        'formset': formset
+    }
+    return render(request, 'user_debitcardupdate.html', context)
+
+
+def user_upimanagepayment(request):
+    current_user = request.user  # Access User Session information
+    ty = current_user.id
+    print(ty)
+    pare=User.objects.get(pk=ty)
+    chilFormset = inlineformset_factory(User, User5Profile, fields=('upiid',), extra=1,)
+    if request.method == 'POST':
+        formset = chilFormset(request.POST, instance=pare)
+        if formset.is_valid():
+            formset.save()
+            return redirect('index')
+    category = Category.objects.all()
+    formset = chilFormset(instance=pare)
+    context = {
+        'category': category,
+        'formset': formset
+    }
+    return render(request, 'user_upiupdate.html', context)
+
+
+def user_paytmmanagepayment(request):
+    current_user = request.user  # Access User Session information
+    ty = current_user.id
+    print(ty)
+    pare=User.objects.get(pk=ty)
+    chilFormset = inlineformset_factory(User, User6Profile, fields=('paytmnumber',), extra=1,)
+    if request.method == 'POST':
+        formset = chilFormset(request.POST, instance=pare)
+        if formset.is_valid():
+            formset.save()
+            return redirect('index')
+    category = Category.objects.all()
+    formset = chilFormset(instance=pare)
+    context = {
+        'category': category,
+        'formset': formset
+    }
+    return render(request, 'user_paytmupdate.html', context)

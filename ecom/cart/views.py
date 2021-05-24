@@ -10,7 +10,7 @@ from django.utils.crypto import get_random_string
 
 from cart.models import *
 from product.models import Category, Product
-from user.models import User1Profile, User2Profile
+from user.models import *
 
 from .forms import *
 
@@ -137,11 +137,50 @@ def orderproduct(request):
     total = 0
     for rs in shopcart:
         total += rs.product.product_discount * rs.quantity
+    tform = OrderForm()
+    count1 = User1Profile.objects.filter(user_id=current_user.id).count()
+    count2 = User2Profile.objects.filter(user_id=current_user.id).count()
+    print(count1)
+    print(count2)
+    print(current_user.id)
+    count3=shopcart.count()
+    print(count3)
+    choices_list=[]
+    ki1 = User3Profile.objects.values_list('ccardnumber', flat=True).filter(user_id=current_user.id)
+    ki2 = User4Profile.objects.values_list('dcardnumber', flat=True).filter(user_id=current_user.id)
+    ki3 = User5Profile.objects.values_list('upiid', flat=True).filter(user_id=current_user.id)
+    ki4 = User6Profile.objects.values_list('paytmnumber', flat=True).filter(user_id=current_user.id)
+    count4 = ki1.count()
+    count5 = ki2.count()
+    count6 = ki3.count()
+    count7 = ki4.count()
+    m=1
+    n=1
+    o=1
+    p=1
+    for i in ki1:
+        choices_list.append(('CREDIT CARD '+str(m), "".join(['*' for x in i[:-4]]) + i[-4:]))
+        m=m+1
+    for j in ki2:
+        choices_list.append(('DEBIT CARD '+str(n), "".join(['*' for x in j[:-4]]) + j[-4:]))
+        n=n+1
+    for k in ki3:
+        choices_list.append(('UPI ID '+str(o), 'UPI ID '+str(k)))
+        o=o+1
+    for l in ki4:
+        choices_list.append(('PAYTM '+str(p), 'PAYTM '+str(l)))
+        p=p+1
+    print(choices_list)
 
     if request.method == 'POST':  # if there is a post
         form = OrderForm(request.POST)
+        print(form.fields['paymethodselection'].choices)
+        print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+        form.fields['paymethodselection'].choices = choices_list
+        print(form.fields['paymethodselection'].choices)
         #return HttpResponse(request.POST.items())
         if form.is_valid():
+            print("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
             data = Order()
             selection = form.data['addoptionselection']
             selection2 = form.data['phoneoptionselection']
@@ -197,21 +236,16 @@ def orderproduct(request):
             return HttpResponseRedirect(reverse("/cart/orderproduct"))
 
 
-    tform = OrderForm()
-    count1 = User1Profile.objects.filter(user_id=current_user.id).count()
-    count2 = User2Profile.objects.filter(user_id=current_user.id).count()
-    print(count1)
-    print(count2)
-    print(current_user.id)
-    count3=shopcart.count()
-    print(count3)
     if count3 < 1 and count1>0 and count2>0:
         return HttpResponseRedirect("/shopcart/")
-    elif count1>0 and count2>0:
+    elif count1>0 and count2>0 and (count7>0 or count6>0 or count5>0 or count4>0):
         tform.fields['addoptionselection'].queryset = User1Profile.objects.filter(user_id=current_user.id)
         tform.fields['phoneoptionselection'].queryset = User2Profile.objects.filter(user_id=current_user.id)
         #tform.fields['addoptionselection'].to_field_name = "id"
         tform.fields['addoptionselection'].widget.attrs['style'] = 'width:300px; height:25px;'
+        print(tform.fields['paymethodselection'].choices)
+        tform.fields['paymethodselection'].choices = choices_list
+        print(tform.fields['paymethodselection'].choices)
         profile1 = User1Profile.objects.filter(user_id=current_user.id)
         profile2 = User2Profile.objects.filter(user_id=current_user.id)
         context = {'shopcart': shopcart,
