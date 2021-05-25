@@ -30,7 +30,13 @@
           </div>
 
           <div class="msg-text">
-            Hi, welcome to Personal Shopper Website! I am PSBot. Go ahead and send me a message. 😄
+            Hi, welcome to Personal Shopper Website! I am PSBot. Go ahead and send me a message. 😄 <br>
+            You can also ask me to suggest you products based on your brand, price range and category. I will also provide you link so you can see the details.  😄<br>
+            Example <br>
+            1)   in 10 and 100000 product:productname<br>
+            2)   in 1000 and 2000 brand:brandname product:productname<br>
+            3)   product:productname
+
           </div>
         </div>
       </div>
@@ -70,6 +76,8 @@
 
     function appendMessage(name, img, side, text) {
       //   Simple solution for small apps
+      console.log(text)
+      text=text.replace(/(http:\/\/[^\s]+)/g, "<a href='$1'>$1</a>")
       const msgHTML = `
 <div class="msg ${side}-msg">
   <div class="msg-img" style="background-image: url(${img})"></div>

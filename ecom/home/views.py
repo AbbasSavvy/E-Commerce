@@ -63,12 +63,14 @@ def search(request):
         if form.is_valid():
             query = form.cleaned_data['query']
             catid = form.cleaned_data['catid']
-
+            print(query)
             if catid == 0:
                 products = Product.objects.filter(product_name__icontains=query)
             else:
                 products = Product.objects.filter(product_name__icontains=query, category=catid)
-
+            print(products)
+            p=list(products)
+            print(p)
             category = Category.objects.all()
             context = {
                 'products': products,
@@ -83,37 +85,325 @@ from django.views.decorators.csrf import csrf_exempt
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
-chatbot = ChatBot('Ron Obvious')
+chatbot = ChatBot('PSBot')
 
 # Create a new trainer for the chatbot
-trainer = ChatterBotCorpusTrainer(chatbot)
+trainer1 = ChatterBotCorpusTrainer(chatbot)
 
 # Train the chatbot based on the english corpus
-trainer.train("chatterbot.corpus.english.greetings")
+trainer1.train("chatterbot.corpus.english")
 
 # Train based on the english corpus
 
 #Already trained and it's supposed to be persistent
 #chatbot.train("chatterbot.corpus.english")
+from chatterbot.trainers import ListTrainer
+from urllib.parse import unquote
 
+trainer = ListTrainer(chatbot)
+
+trainer.train([
+    "Who made personal shopper website",
+    "Sarvesh Agrawal and Abbas Savliwala",
+])
 @csrf_exempt
 def get_response(request):
-	if request.method == 'POST':
-		data = request.body.decode('utf-8')
-		data = data[4:]
-		print(data)
-		if (data.find('+')>-1):
-			data = data[::-1]
-			data = data[3:]
-			data = data[::-1]
-		chat_response = chatbot.get_response(data).text
-		print(chatbot.get_response(data).text)
+    if request.method == 'POST':
+        data = request.body.decode('utf-8')
 
-	else:
-		chat_response = "No response"
+        data = unquote(data)
+        data = data[4:]
+        if (data.find('+')>-1):
+            data = data.replace("+", " ")
+        print(data)
+        if data.find('in ')==0 and data.find(' and ') > -1 and data.find(' product:') > -1 and data.find(' brand:') > -1:
+            try:
+                test_sub1 ="in "
+                stindex1 = [i for i in range(len(data)) if data.startswith(test_sub1, i)]
+                print(stindex1)
+                stindexf1 = []
+                c=0
+                k=0
+                for i in stindex1:
+                    try:
+                        int(data[i+3])
+                        print("uhuhuh")
+                        print(data[i+3])
+                        stindexf1.append(i+3)
+                        c=1
+                    except:
+                        c=0
+                print(stindexf1)
+                test_sub2 =" and "
+                stindex2 = [i for i in range(len(data)) if data.startswith(test_sub2, i)]
+                print(stindex2)
+                stindexf2 = []
+                for i in stindex2:
+                    try:
+                        int(data[i+5])
+                        print("uhuhuh")
+                        print(data[i+5])
+                        stindexf2.append(i+5)
+                        k=1
+                    except:
+                        k=0
+                print(stindexf2)
+                for i in stindexf2:
+                    if stindexf1[0]>i:
+                        stindexf2.remove(i)
+                for i in stindexf1:
+                    if stindexf2[-1]<i:
+                        stindexf1.remove(i)
+                print(stindexf2)
+                print(stindexf1)
+                numb1 = ''
+                numb2 = ''
+                for i in data[int(stindexf1[0]):int(data[stindexf1[0]:].find(' '))+int(stindexf1[0])]:
+                    if i.isdigit():
+                        numb1=numb1+i
+                print(numb1)
+                for i in data[int(stindexf2[0]):int(data[stindexf2[0]:].find(' '))+int(stindexf2[0])]:
+                    if i.isdigit():
+                        numb2=numb2+i
+                print(numb2)
+            except:
+                chat_response = "You misspelt something. Try again!"
+            try:
+                test_sub3 = " product:"
+                stindex3 = [i for i in range(len(data)) if data.startswith(test_sub3, i)]
+                print(stindex3)
+                stindexf3 = []
+                for i in stindex3:
+                    try:
+                        print("uhuhuh")
+                        print(data[i + 9])
+                        stindexf3.append(i + 9)
+                        c = 1
+                    except:
+                        c = 0
+                print(stindexf3)
+                data3 = data[int(stindexf3[0]):]
+                print(data3)
+                test_sub4 = " brand:"
+                stindex4 = [i for i in range(len(data)) if data.startswith(test_sub4, i)]
+                print(stindex4)
+                stindexf4 = []
+                for i in stindex4:
+                    try:
+                        print("uhuhuh")
+                        print(data[i + 7])
+                        stindexf4.append(i + 7)
+                    except:
+                        pass
+                print(stindexf4)
+                data4 = data[int(stindexf4[0]):int(stindex3[0])]
+                print(data4)
+                products_i = Product.objects.filter(product_name__icontains=data, product_brand__icontains=data4, product_discount__gte=int(numb1),
+                                                    product_discount__lte=int(numb2))
+                print(products_i.count())
+                datalt = data3.split(' ')
+                print(datalt)
+                x = len(datalt)
+                print(x)
+                y = 0
+                prod = []
+                for i in datalt:
+                    products_k = Product.objects.filter(product_keywords__icontains=i, product_brand__icontains=data4, product_discount__gte=int(numb1),
+                                                        product_discount__lte=int(numb2))
+                    prod.append(Product.objects.filter(product_keywords__icontains=i, product_brand__icontains=data4, product_discount__gte=int(numb1),
+                                                       product_discount__lte=int(numb2)))
+                    print(products_k.count())
+                do = 0
+                for i in prod:
+                    if do == 0:
+                        products = i
+                    else:
+                        products = products.intersection(i)
+                    do = do + 1
+                products = products_i.union(products)
+                if products.count()>0:
+                    st = ' '
+                    if (products.count() > 0):
+                        st = 'Products found- <br> '
+                    for product in products:
+                        st = str(st) +" <br> "+ str(product.product_name) + " <br> " + "http:/"+"/127.0.0.1:8000/product/"+str(product.id)+"/"+str(product.slug) + " <br> "
+                    print(st)
+                    chat_response = st
+                    print(chat_response)
+                else:
+                    chat_response = "No product available with these specifications."
+            except:
+                chat_response = chatbot.get_response(data).text
+        elif data.find('in ')==0 and data.find(' and ') > -1 and data.find(' product:') > -1:
+            try:
+                test_sub ="in "
+                stindex = [i for i in range(len(data)) if data.startswith(test_sub, i)]
+                print(stindex)
+                stindexf = []
+                c=0
+                k=0
+                for i in stindex:
+                    try:
+                        int(data[i+3])
+                        print("uhuhuh")
+                        print(data[i+3])
+                        stindexf.append(i+3)
+                        c=1
+                    except:
+                        c=0
+                print(stindexf)
+                test_sub2 =" and "
+                stindex2 = [i for i in range(len(data)) if data.startswith(test_sub2, i)]
+                print(stindex2)
+                stindexf2 = []
+                for i in stindex2:
+                    try:
+                        int(data[i+5])
+                        print("uhuhuh")
+                        print(data[i+5])
+                        stindexf2.append(i+5)
+                        k=1
+                    except:
+                        k=0
+                print(stindexf2)
+                for i in stindexf2:
+                    if stindexf[0]>i:
+                        stindexf2.remove(i)
+                for i in stindexf:
+                    if stindexf2[-1]<i:
+                        stindexf.remove(i)
+                print(stindexf2)
+                print(stindexf)
+                numb1 = ''
+                numb2 = ''
+                for i in data[int(stindexf[0]):int(data[stindexf[0]:].find(' '))+int(stindexf[0])]:
+                    if i.isdigit():
+                        numb1=numb1+i
+                print(numb1)
+                for i in data[int(stindexf2[0]):int(data[stindexf2[0]:].find(' '))+int(stindexf2[0])]:
+                    if i.isdigit():
+                        numb2=numb2+i
+                print(numb2)
+            except:
+                chat_response = "You misspelt something. Try again!"
+            try:
+                test_sub = " product:"
+                stindex = [i for i in range(len(data)) if data.startswith(test_sub, i)]
+                print(stindex)
+                stindexf = []
+                for i in stindex:
+                    try:
+                        print("uhuhuh")
+                        print(data[i + 9])
+                        stindexf.append(i + 9)
+                        c = 1
+                    except:
+                        c = 0
+                print(stindexf)
+                data = data[int(stindexf[0]):]
+                print(data)
+                products_i = Product.objects.filter(product_name__icontains=data,product_discount__gte=int(numb1),
+                                              product_discount__lte=int(numb2))
+                print(products_i.count())
+                datalt = data.split(' ')
+                print(datalt)
+                x = len(datalt)
+                print(x)
+                y = 0
+                prod = []
+                for i in datalt:
+                    products_k = Product.objects.filter(product_keywords__icontains=i,product_discount__gte=int(numb1),
+                                              product_discount__lte=int(numb2))
+                    prod.append(Product.objects.filter(product_keywords__icontains=i,product_discount__gte=int(numb1),
+                                              product_discount__lte=int(numb2)))
+                    print(products_k.count())
+                do = 0
+                for i in prod:
+                    if do == 0:
+                        products = i
+                    else:
+                        products = products.intersection(i)
+                    do = do + 1
+                products = products_i.union(products)
+                try:
+                    catgoryids = Category.objects.values_list('id', flat=True).get(category_name__icontains=data)
+                    products2 = Product.objects.filter(category_id=catgoryids,product_discount__gte=int(numb1),
+                                              product_discount__lte=int(numb2))
+                    print(products2.count())
 
-	return HttpResponse(str(chat_response))
+                except:
+                    products2 = Product.objects.none()
+                if products.count()>0 or products2.count()>0:
+                    st = ' '
+                    if (products2.count() > 0):
+                        st = 'Categorically found products- <br> '
+                    for product in products2:
+                        st = str(st) +" <br> "+ str(product.product_name) + " <br> " + "http:/"+"/127.0.0.1:8000/product/"+str(product.id)+"/"+str(product.slug) + " <br> "
+                    if (products.count() > 0):
+                        st = 'Products found- <br> '
+                    for product in products:
+                        st = str(st) +" <br> "+ str(product.product_name) + " <br> " + "http:/"+"/127.0.0.1:8000/product/"+str(product.id)+"/"+str(product.slug) + " <br> "
+                    print(st)
+                    chat_response = st
+                    print(chat_response)
+                else:
+                    chat_response = "No product available with these specifications."
+            except:
+                chat_response = chatbot.get_response(data).text
+        elif (data.find('product:')==0):
+            try:
+                data = data[8:]
+                products_i = Product.objects.filter(product_name__icontains=data)
+                print(products_i.count())
+                datalt=data.split(' ')
+                print(datalt)
+                x=len(datalt)
+                print(x)
+                y=0
+                prod=[]
+                for i in datalt:
+                    products_k = Product.objects.filter(product_keywords__icontains=i)
+                    prod.append(Product.objects.filter(product_keywords__icontains=i))
+                    print(products_k.count())
+                do=0
+                for i in prod:
+                    if do==0:
+                        products = i
+                    else:
+                        products = products.intersection(i)
+                    do=do+1
+                products = products_i.union(products)
+                try:
+                    catgoryids = Category.objects.values_list('id', flat=True).get(category_name__icontains=data)
+                    products2 = Product.objects.filter(category_id=catgoryids)
+                except:
+                    products2 = Product.objects.none()
+                print(products.count())
+                if products.count()>0 or products2.count()>0:
+                    st = ' '
+                    if (products2.count() > 0):
+                        st = 'Categorically found products- <br> '
+                    for product in products2:
+                        st = str(st) +" <br> "+ str(product.product_name) + " <br> " + "http:/"+"/127.0.0.1:8000/product/"+str(product.id)+"/"+str(product.slug) + " <br> "
+                    if (products.count() > 0):
+                        st = 'Products found- <br> '
+                    for product in products:
+                        st = str(st) +" <br> "+ str(product.product_name) + " <br> " + "http:/"+"/127.0.0.1:8000/product/"+str(product.id)+"/"+str(product.slug) + " <br> "
+                    print(st)
+                    chat_response = st
+                    print(chat_response)
+                else:
+                    chat_response = "No product available with these specifications."
+            except:
+                chat_response = chatbot.get_response(data).text
+        else:
+            chat_response = chatbot.get_response(data).text
+
+    else:
+        chat_response = "No response"
+
+    return HttpResponse(str(chat_response))
 
 
 def home(request, template_name="home.html"):
-	return render(request, template_name)
+    return render(request, template_name)
