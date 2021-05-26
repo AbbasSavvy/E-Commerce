@@ -2,46 +2,38 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.decorators import method_decorator
 from django.contrib.auth.forms import PasswordChangeForm
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordResetForm
-from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
-from django.views.generic.list import ListView
 from django.forms import inlineformset_factory
 
-from .models import *
 from .forms import *
-from django.views.generic.edit import CreateView, UpdateView
-from django.urls import reverse_lazy
-from django.db import transaction
 
 # Create your views here.
-from django.utils import translation
 from product.models import Category
-from user.models import User, User1Profile, User2Profile
 from cart.models import *
+
 
 @login_required(login_url='/login')
 def index(request):
     category = Category.objects.all()
     current_user = request.user  # Access User Session information
-    ty=current_user.id
+    ty = current_user.id
     profile1 = User1Profile.objects.filter(user_id=ty)
     profile2 = User2Profile.objects.filter(user_id=ty)
     context = {'category': category,
                'profile1': profile1,
                'profile2': profile2}
-    return render(request,'user_profile.html', context)
+    return render(request, 'user_profile.html', context)
+
 
 def login_form(request):
     if request.method == 'POST':
@@ -54,18 +46,19 @@ def login_form(request):
             return HttpResponseRedirect('/')
         else:
             # Return an 'invalid login' error message.
-            messages.warning(request,"Login Error! Username or Password is incorrect")
+            messages.warning(request, "Login Error! Username or Password is incorrect")
             return HttpResponseRedirect('/login')
-
 
     category = Category.objects.all()
     context = {'category': category}
     return render(request, 'login_form.html', context)
 
-@login_required(login_url='/login') # Check login
+
+@login_required(login_url='/login')  # Check login
 def logout_func(request):
     logout(request)
     return HttpResponseRedirect('/')
+
 
 def newsignup(request):
     if request.method == 'POST':
@@ -94,7 +87,6 @@ def newsignup(request):
             messages.warning(request, form2.errors)
             return HttpResponseRedirect('/signup')
 
-
     form = SignUp1Form()
     form1 = SignUp2Form()
     form2 = SignUp3Form()
@@ -106,10 +98,11 @@ def newsignup(request):
                }
     return render(request, 'signup_form.html', context)
 
+
 @login_required(login_url='/login')
 def user_update(request):
     if request.method == 'POST':
-        user_form = UserUpdateForm(request.POST, instance=request.user) # request.user is user  data
+        user_form = UserUpdateForm(request.POST, instance=request.user)  # request.user is user  data
         if user_form.is_valid():
             user_form.save()
             messages.success(request, 'Your account has been updated!')
@@ -123,12 +116,14 @@ def user_update(request):
         }
         return render(request, 'user_update.html', context)
 
+
 @login_required(login_url='/login')
 def user_addressupdate(request):
     current_user = request.user  # Access User Session information
     ty = current_user.id
-    pare=User.objects.get(pk=ty)
-    chilFormset = inlineformset_factory(User, User1Profile, fields=('address', 'city', 'state', 'pin_code', 'country',),extra=1,)
+    pare = User.objects.get(pk=ty)
+    chilFormset = inlineformset_factory(User, User1Profile, fields=('address', 'city', 'state', 'pin_code', 'country',),
+                                        extra=1, )
     if request.method == 'POST':
         print("1")
         formset = chilFormset(request.POST, instance=pare)
@@ -149,17 +144,14 @@ def user_addressupdate(request):
     }
     return render(request, 'user_addressupdate.html', context)
 
-@login_required(login_url='/login')
-def password_update(request):
-    return HttpResponse('User Update')
 
 @login_required(login_url='/login')
 def user_contactupdate(request):
     current_user = request.user  # Access User Session information
     ty = current_user.id
     print(ty)
-    pare=User.objects.get(pk=ty)
-    chilFormset = inlineformset_factory(User, User2Profile, fields=('phone',), extra=1,)
+    pare = User.objects.get(pk=ty)
+    chilFormset = inlineformset_factory(User, User2Profile, fields=('phone',), extra=1, )
     if request.method == 'POST':
         formset = chilFormset(request.POST, instance=pare)
         if formset.is_valid():
@@ -173,7 +165,8 @@ def user_contactupdate(request):
     }
     return render(request, 'user_contactupdate.html', context)
 
-@login_required(login_url='/login') # Check login
+
+@login_required(login_url='/login')  # Check login
 def user_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -183,28 +176,28 @@ def user_password(request):
             messages.success(request, 'Your password was successfully updated!')
             return HttpResponseRedirect('/user')
         else:
-            messages.error(request, 'Please correct the error below.<br>'+ str(form.errors))
+            messages.error(request, 'Please correct the error below.<br>' + str(form.errors))
             return HttpResponseRedirect('/user/password')
     else:
-        #category = Category.objects.all()
+        # category = Category.objects.all()
         form = PasswordChangeForm(request.user)
-        return render(request, 'user_password.html', {'form': form,#'category': category
-                       })
+        return render(request, 'user_password.html', {'form': form,  # 'category': category
+                                                      })
 
 
-
-@login_required(login_url='/login') # Check login
+@login_required(login_url='/login')  # Check login
 def user_orders(request):
     category = Category.objects.all()
     current_user = request.user
-    orders=Order.objects.filter(user_id=current_user.id)
+    orders = Order.objects.filter(user_id=current_user.id)
     context = {'category': category,
                'orders': orders,
                }
     return render(request, 'user_orders.html', context)
 
-@login_required(login_url='/login') # Check login
-def user_orderdetail(request,id):
+
+@login_required(login_url='/login')  # Check login
+def user_orderdetail(request, id):
     category = Category.objects.all()
     current_user = request.user
     order = Order.objects.get(user_id=current_user.id, id=id)
@@ -216,7 +209,8 @@ def user_orderdetail(request,id):
     }
     return render(request, 'user_order_detail.html', context)
 
-@login_required(login_url='/login') # Check login
+
+@login_required(login_url='/login')  # Check login
 def user_order_product(request):
     category = Category.objects.all()
     current_user = request.user
@@ -244,24 +238,25 @@ def password_reset_request(request):
                     email_template_name = "registration/password_reset_email.txt"
                     current_site = get_current_site(request)
                     c = {
-                    "email":user.email,
-                    'domain':current_site.domain,
-                    'site_name': 'Personal Shopper',
-                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                    "user": user,
-                    'token': default_token_generator.make_token(user),
-                    'protocol': 'http',
+                        "email": user.email,
+                        'domain': current_site.domain,
+                        'site_name': 'Personal Shopper',
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        "user": user,
+                        'token': default_token_generator.make_token(user),
+                        'protocol': 'http',
                     }
                     email = render_to_string(email_template_name, c)
                     try:
                         send_mail(subject, email, 'personalshopper.ibm@gmail.com', [user.email], fail_silently=False)
                     except BadHeaderError:
                         return HttpResponse('Invalid header found.')
-                    return redirect ("/password_reset/done/")
+                    return redirect("/password_reset/done/")
             else:
                 return render(request, 'registration/NosuchEmail.html')
     password_reset_form = PasswordResetForm()
-    return render(request=request, template_name="registration/password_reset_form.html", context={"password_reset_form":password_reset_form})
+    return render(request=request, template_name="registration/password_reset_form.html",
+                  context={"password_reset_form": password_reset_form})
 
 
 def user_managepayment(request):
@@ -271,8 +266,10 @@ def user_managepayment(request):
 def ccuser_managepayment(request):
     current_user = request.user  # Access User Session information
     ty = current_user.id
-    pare=User.objects.get(pk=ty)
-    chilFormset = inlineformset_factory(User, User3Profile, fields=('ccardnumber', 'cexpmonth', 'cexpyear', 'cnameoncard', 'ccvv',),extra=1,)
+    pare = User.objects.get(pk=ty)
+    chilFormset = inlineformset_factory(User, User3Profile,
+                                        fields=('ccardnumber', 'cexpmonth', 'cexpyear', 'cnameoncard', 'ccvv',),
+                                        extra=1, )
     if request.method == 'POST':
         print("1")
         formset = chilFormset(request.POST, instance=pare)
@@ -297,8 +294,10 @@ def ccuser_managepayment(request):
 def dcuser_managepayment(request):
     current_user = request.user  # Access User Session information
     ty = current_user.id
-    pare=User.objects.get(pk=ty)
-    chilFormset = inlineformset_factory(User, User4Profile, fields=('dcardnumber', 'dexpmonth', 'dexpyear', 'dnameoncard', 'dcvv',),extra=1,)
+    pare = User.objects.get(pk=ty)
+    chilFormset = inlineformset_factory(User, User4Profile,
+                                        fields=('dcardnumber', 'dexpmonth', 'dexpyear', 'dnameoncard', 'dcvv',),
+                                        extra=1, )
     if request.method == 'POST':
         print("1")
         formset = chilFormset(request.POST, instance=pare)
@@ -324,8 +323,8 @@ def user_upimanagepayment(request):
     current_user = request.user  # Access User Session information
     ty = current_user.id
     print(ty)
-    pare=User.objects.get(pk=ty)
-    chilFormset = inlineformset_factory(User, User5Profile, fields=('upiid',), extra=1,)
+    pare = User.objects.get(pk=ty)
+    chilFormset = inlineformset_factory(User, User5Profile, fields=('upiid',), extra=1, )
     if request.method == 'POST':
         formset = chilFormset(request.POST, instance=pare)
         if formset.is_valid():
@@ -344,8 +343,8 @@ def user_paytmmanagepayment(request):
     current_user = request.user  # Access User Session information
     ty = current_user.id
     print(ty)
-    pare=User.objects.get(pk=ty)
-    chilFormset = inlineformset_factory(User, User6Profile, fields=('paytmnumber',), extra=1,)
+    pare = User.objects.get(pk=ty)
+    chilFormset = inlineformset_factory(User, User6Profile, fields=('paytmnumber',), extra=1, )
     if request.method == 'POST':
         formset = chilFormset(request.POST, instance=pare)
         if formset.is_valid():

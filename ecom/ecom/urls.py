@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import path, include
 
 from ecom import settings
@@ -24,7 +23,6 @@ from home import views
 from user import views as uviews
 
 from django.contrib.auth import views as auth_views
-from django.conf.urls import url
 from django.contrib import admin
 
 admin.site.site_header = 'PERSONAL SHOPPER'
@@ -44,9 +42,15 @@ urlpatterns = [
     path('logout/', UserViews.logout_func, name='logout'),
     path('signup/', UserViews.newsignup, name='signup'),
     path('shopcart/', CartViews.shopcart, name='shopcart'),
-    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="registration/password_reset_confirm.html"), name='password_reset_confirm'),
-    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
+    path('password_reset/done/',
+         auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'),
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(template_name="registration/password_reset_confirm.html"),
+         name='password_reset_confirm'),
+    path('reset/done/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'),
+         name='password_reset_complete'),
     path("password_reset", uviews.password_reset_request, name="password_reset"),
 
     path('category/<int:id>/<slug:slug>/', views.category_products, name='category_products'),

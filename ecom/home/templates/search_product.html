@@ -1,5 +1,6 @@
 {% extends 'homeBase.html' %}
 {% block title %} {{ query }} Results {% endblock %}
+{% block header %}{% include 'header.html' %}{% endblock %}
 {% block categories %} {% include 'categories.html' %} {% endblock %}
 {% block body %}
 
@@ -24,11 +25,53 @@
 			<div class="row">
 
 				<!-- MAIN -->
-				<div id="main" class="col-md-9">
-					
+				<div id="main" class="col-md-12">
+					<!-- store top filter -->
+						<div class="pull-right">
+							{% if product.has_other_pages %}
+								<ul class="pagination">
+									{% if product.has_previous %}
+										<li class="page-item">
+											<a class="page-link" href="?page={{ product.previous_page_number }}&que={{query}}&cid={{catid}}">Previous</a>
+										</li>
+									{% else %}
+										<li class="page-item disabled">
+											<a class="page-link" href="#">Previous</a>
+										</li>
+									{% endif %}
+									{% for num in product.paginator.page_range %}
+										{% if product.number == l %}
+											<li class="page-item active">
+												<span class="page-link">
+													{{ num }}
+													<span class="sr-only">
+														(current)
+													</span>
+												</span>
+											</li>
+										{% else %}
+										<li>
+											<a class="page-link" href="?page={{ num }}&que={{query}}&cid={{catid}}">{{ num }}</a>
+										</li>
+										{% endif %}
+									{% endfor %}
+									{% if product.has_next %}
+										<li class="page-item">
+											<a class="page-link" href="?page={{ product.next_page_number }}&que={{query}}&cid={{catid}}">Next</a>
+										</li>
+									{% else %}
+										<li class="page-item disabled">
+											<a class="page-link" href="#">Next</a>
+										</li>
+									{% endif %}
+								</ul>
+							{% endif %}
+						</div>
+					</div>
+					<!-- /store top filter -->
 							<!-- Product Single -->
 							<div class='cat-div'>
-                            {% for product in products %}
+                            {% for product in product %}
                                     <div class="product product-single category-product">
                                         <div class="product-thumb">
                                             <a href="/product/{{product.id}}/{{product.slug}}" class="main-btn quick-view" ><i class="fa fa-search-plus"></i> Quick view</a>

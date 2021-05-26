@@ -1,10 +1,8 @@
-from django.contrib.auth.models import User
-from django.db import models
-
 # Create your models here.
 from django.forms import ModelForm
 from product.models import Product
 from user.models import *
+
 
 class ShopCart(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
@@ -16,11 +14,12 @@ class ShopCart(models.Model):
 
     @property
     def discountedprice(self):
-        return (self.product.product_discount)
+        return self.product.product_discount
 
     @property
     def amount(self):
-        return (self.quantity * self.product.product_discount)
+        return self.quantity * self.product.product_discount
+
 
 class ShopCartForm(ModelForm):
     class Meta:
@@ -39,7 +38,7 @@ class Order(models.Model):
     )
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    code = models.CharField(max_length=5, editable=False )
+    code = models.CharField(max_length=5, editable=False)
     first_name = models.CharField(max_length=10)
     last_name = models.CharField(max_length=10)
     phone = models.CharField(blank=True, max_length=20)
@@ -52,14 +51,15 @@ class Order(models.Model):
     delivery_type = models.CharField(blank=True, max_length=220)
     delivery_charge = models.FloatField()
     total = models.FloatField()
-    status=models.CharField(max_length=10,choices=STATUS,default='New')
+    status = models.CharField(max_length=10, choices=STATUS, default='New')
     ip = models.CharField(blank=True, max_length=20)
     adminnote = models.CharField(blank=True, max_length=100)
-    create_at=models.DateTimeField(auto_now_add=True)
-    update_at=models.DateTimeField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.user.first_name
+
 
 class OrderProduct(models.Model):
     STATUS = (
