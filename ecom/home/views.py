@@ -13,9 +13,15 @@ from urllib.parse import unquote
 
 def index(request):
     category = Category.objects.all()
+    
     sliderProducts = Product.objects.all().order_by('id')[:4]
     latestProducts = Product.objects.all().order_by('-id')[:4]
     randomProducts = Product.objects.all().order_by('?')[:4]
+
+    # print(sliderProducts)
+    # print(latestProducts)
+    # print(randomProducts)
+
     page = 'home'
     context = {'page': page,
                'category': category,
@@ -23,6 +29,8 @@ def index(request):
                'latestProducts': latestProducts,
                'randomProducts': randomProducts}
     return render(request, 'index.html', context)
+
+    
 
 
 def product_detail(request, id, slug):
