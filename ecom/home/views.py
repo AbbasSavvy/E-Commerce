@@ -146,8 +146,9 @@ def search(request):
     return HttpResponseRedirect('/')
 
 
-chatbot = ChatBot('PSBot')
-
+chatbot = ChatBot('PSBot',
+                  storage_adapter = "chatterbot.storage.SQLStorageAdapter"
+                  )
 # Create a new trainer for the chatbot
 trainer1 = ChatterBotCorpusTrainer(chatbot)
 

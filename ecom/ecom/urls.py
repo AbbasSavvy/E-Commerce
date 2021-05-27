@@ -59,5 +59,9 @@ urlpatterns = [
 
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+from django.views.static import serve as mediaserve
+from django.urls import re_path
+
+urlpatterns.append(re_path(f'^{settings.MEDIA_URL.lstrip("/")}(?P<path>.*)$',
+                       mediaserve, {'document_root': settings.MEDIA_ROOT}))
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
