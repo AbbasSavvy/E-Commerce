@@ -9,11 +9,12 @@ from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 from chatterbot.trainers import ListTrainer
 from urllib.parse import unquote
+from ecom import settings
 
 
 def index(request):
     category = Category.objects.all()
-    
+
     sliderProducts = Product.objects.all().order_by('id')[:4]
     latestProducts = Product.objects.all().order_by('-id')[:4]
     randomProducts = Product.objects.all().order_by('?')[:4]
@@ -29,8 +30,6 @@ def index(request):
                'latestProducts': latestProducts,
                'randomProducts': randomProducts}
     return render(request, 'index.html', context)
-
-    
 
 
 def product_detail(request, id, slug):
@@ -147,14 +146,17 @@ def search(request):
 
 
 chatbot = ChatBot('PSBot',
-                  storage_adapter = "chatterbot.storage.SQLStorageAdapter"
+                  storage_adapter="chatterbot.storage.SQLStorageAdapter",
+                  database=settings.DATABASES,
+                  database_uri='postgres://postgres:Ok12Ok43@@localhost:5432/my_db'
                   )
+# '/my_db'
 # Create a new trainer for the chatbot
 trainer1 = ChatterBotCorpusTrainer(chatbot)
 
 # Train the chatbot based on the english corpus
-trainer1.train("chatterbot.corpus.english")
-
+trainer1.train("chatterbot.corpus.english.conversations")
+trainer1.train("chatterbot.corpus.english.greetings")
 # Train based on the english corpus
 
 # Already trained and it's supposed to be persistent
@@ -284,7 +286,7 @@ def get_response(request):
                         st = 'Products found- <br> '
                     for product in products:
                         st = str(st) + " <br> " + str(
-                            product.product_name) + " <br> " + "http:/" + "/127.0.0.1:8000/product/" + str(
+                            product.product_name) + " <br> " + "https:/" + "/personal-shopper-website.herokuapp.com/product/" + str(
                             product.id) + "/" + str(product.slug) + " <br> "
                     print(st)
                     chat_response = st
@@ -389,13 +391,13 @@ def get_response(request):
                         st = 'Categorically found products- <br> '
                     for product in products2:
                         st = str(st) + " <br> " + str(
-                            product.product_name) + " <br> " + "http:/" + "/127.0.0.1:8000/product/" + str(
+                            product.product_name) + " <br> " + "https:/" + "/personal-shopper-website.herokuapp.com/product/" + str(
                             product.id) + "/" + str(product.slug) + " <br> "
                     if products.count() > 0:
                         st = 'Products found- <br> '
                     for product in products:
                         st = str(st) + " <br> " + str(
-                            product.product_name) + " <br> " + "http:/" + "/127.0.0.1:8000/product/" + str(
+                            product.product_name) + " <br> " + "https:/" + "/personal-shopper-website.herokuapp.com/product/" + str(
                             product.id) + "/" + str(product.slug) + " <br> "
                     print(st)
                     chat_response = st
@@ -438,13 +440,13 @@ def get_response(request):
                         st = 'Categorically found products- <br> '
                     for product in products2:
                         st = str(st) + " <br> " + str(
-                            product.product_name) + " <br> " + "http:/" + "/127.0.0.1:8000/product/" + str(
+                            product.product_name) + " <br> " + "https:/" + "/personal-shopper-website.herokuapp.com/product/" + str(
                             product.id) + "/" + str(product.slug) + " <br> "
                     if products.count() > 0:
                         st = 'Products found- <br> '
                     for product in products:
                         st = str(st) + " <br> " + str(
-                            product.product_name) + " <br> " + "http:/" + "/127.0.0.1:8000/product/" + str(
+                            product.product_name) + " <br> " + "https:/" + "/personal-shopper-website.herokuapp.com/product/" + str(
                             product.id) + "/" + str(product.slug) + " <br> "
                     print(st)
                     chat_response = st
