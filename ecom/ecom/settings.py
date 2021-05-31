@@ -26,7 +26,7 @@ SECRET_KEY = 'gt!cp3f-xuafnn@vwr%z^f%h=_e-lx#5r6t6nv6(-08tfji3f)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'https://personal-shopper-website.herokuapp.com/', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -42,12 +42,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'ckeditor',
     'mptt',
     'widget_tweaks',
     'crispy_forms',
     'chatterbot.ext.django_chatterbot',
 ]
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'personal-shopper',
+    'API_KEY': '621869334262542',
+    'API_SECRET': 'Z_P_R2vYUYNVQmAioFeK0vsqPNY'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -134,8 +142,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'home\static')
 MEDIA_URL = '/uploads/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+#STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # ...
 #SITE_ID = 1
 
