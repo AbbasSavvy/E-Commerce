@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,13 +24,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'gt!cp3f-xuafnn@vwr%z^f%h=_e-lx#5r6t6nv6(-08tfji3f)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'cart.apps.CartConfig',
     'user.apps.UserConfig',
     'product.apps.ProductConfig',
@@ -39,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'ckeditor',
     'mptt',
     'widget_tweaks',
@@ -46,8 +51,15 @@ INSTALLED_APPS = [
     'chatterbot.ext.django_chatterbot',
 ]
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'personal-shopper',
+    'API_KEY': '621869334262542',
+    'API_SECRET': 'Z_P_R2vYUYNVQmAioFeK0vsqPNY'
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -90,6 +102,9 @@ DATABASES = {
     }
 }
 
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -123,19 +138,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = '/static/'
-
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'home\static')
 MEDIA_URL = '/uploads/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+#STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # ...
-SITE_ID = 1
+#SITE_ID = 1
 
 # CKEDITOR CONFIGURATION
 
@@ -152,8 +163,14 @@ CKEDITOR_CONFIGS = {
 
 ###################################
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SERVER_EMAIL = 'personalshopper.ibm@gmail.com'
+ADMINS = [
+    ('Sarvesh Agrawal', 'sarveshagrawal.profile@gmail.com'),
+]
+MANAGERS = ADMINS
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
@@ -161,3 +178,7 @@ EMAIL_HOST_USER = 'personalshopper.ibm@gmail.com'
 EMAIL_HOST_PASSWORD = 'Ok12Ok43@'
 
 DEFAULT_FROM_EMAIL = 'personalshopper.ibm@gmail.com'
+WHITENOISE_USE_FINDERS = True
+# Activate Django-Heroku.
+# django_heroku.settings(locals())
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

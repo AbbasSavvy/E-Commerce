@@ -77,7 +77,7 @@
     function appendMessage(name, img, side, text) {
       //   Simple solution for small apps
       console.log(text)
-      text=text.replace(/(http:\/\/[^\s]+)/g, "<a href='$1'>$1</a>")
+      text=text.replace(/(https:\/\/[^\s]+)/g, "<a href='$1'>$1</a>")
       const msgHTML = `
 <div class="msg ${side}-msg">
   <div class="msg-img" style="background-image: url(${img})"></div>
