@@ -34,7 +34,7 @@
 		<link type="text/css" rel="stylesheet" href="{% static '' %}css/style.css" />
 		{% block head %} {% endblock %}
 	</head>
-	<body>
+	<body onload="hideButton()">
 		{% include 'header.html' %}
 		<hr>
 		{% block categories %}{% endblock %}

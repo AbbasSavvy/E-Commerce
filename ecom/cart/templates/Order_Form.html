@@ -19,18 +19,27 @@
     </div>
     <!-- /BREADCRUMB -->
     <!-- section -->
+	                {% if messages %}
+                    {% for message in messages %}
+                        {% if forloop.last %}
+                        <div class="alert alert-{{message.tags}}" role="alert" style="margin-left:35%;margin-right:35%;">
+                            {{ message |safe }}
+                        </div>
+                        {%endif%}
+                    {% endfor %}
+                {% endif %}
     <div class="section">
         <!-- container -->
         <div class="container">
             <!-- row -->
             <div  class="row">
-
-                    <div class="col-md-6">
-                <Form id="thisform" method="post" data-url="%url 'orderproduct'%"">
+                <div class="col-md-6">
+                    <form id="thisform" method="post" data-url="%url 'orderproduct'%">
                     {% csrf_token %}
+                        <input type="hidden" name="form_type" value="formOne">
                         <div class="billing-details">
                             <div class="section-title">
-                                <h3 class="title">Shopcart Product List</h3>
+                                <h3 class="title">Shipping Details</h3>
                             </div>
                             <div>
                                 {% for field in form %}
@@ -48,18 +57,106 @@
                                 {% endif %}
                                 {%endfor%}
                             </div>
+                        </div>
+                        <div>
+                            <button  type="submit" class="primary-btn">Complete Order</button>
+                        </div>
+                    </form>
 
+                    <div class="billing-details">
+                        <div class="section-title" style="margin-top:3%;">
+                            <h3 class="title">Add details</h3>
+                        </div>
+                        <div>
+                            <input type="radio" onclick="javascript:yesnoCheck();" id="stn" name="filter1[]" value="stn">
+                            <label for="stn">Add Credit Card</label><br>
+                                                    <div style="margin-top:5%;margin-bottom:5%;margin-left:10%;">
+                        <div id="stnfilter">
+                            <form id="thisform1" method="post" data-url="%url 'orderproduct'%">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="formTwo">
+                            {% for field in ccform %}
+                                <div style="width:80%;">
+                                    <div style="width:30%; float:left;"><p style="display:inline;">{{ field.label_tag }}</p></div>
+                                    <div style="width:35%; float:left;"><p style="display:inline;">{{ field }}</p></div><br><br>
+                                </div><br>
+                            {%endfor%}
+                                <div>
+                                    <button  type="submit" class="primary-btn">Add Credit Card</button>
+                                </div>
+                            </form>
+                        </div></div>
+                            <input type="radio" onclick="javascript:yesnoCheck();" id="post" name="filter1[]" value="post">
+                            <label for="post">Add Debit Card</label><br>
+                            <div style="margin-top:5%;margin-bottom:5%;margin-left:10%;">
+                                                        <div id="postfilter">
+                            <form id="thisform2" method="post" data-url="%url 'orderproduct'%">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="formThree">
+                            {% for field in ddform %}
+                                <div style="width:80%;">
+                                    <div style="width:30%; float:left;"><p style="display:inline;">{{ field.label_tag }}</p></div>
+                                    <div style="width:35%; float:left;"><p style="display:inline;">{{ field }}</p></div><br><br>
+                                </div><br>
+                            {%endfor%}
+                                <div>
+                                    <button  type="submit" class="primary-btn">Add Debit Card</button>
+                                </div>
+                            </form>
+                        </div>
+                            </div>
+                            <input type="radio" onclick="javascript:yesnoCheck();" id="dor1" name="filter1[]" value="dor1">
+                            <label for="dor1">Add UPI ID</label><br>
+                            <div style="margin-top:5%;margin-bottom:5%;margin-left:10%;">
+                                                        <div id="dor1filter">
+                            <form id="thisform3" method="post" data-url="%url 'orderproduct'%">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="formFour">
+                            {% for field in upiform %}
+                                <div style="width:80%;">
+                                    <div style="width:30%; float:left;"><p style="display:inline;">{{ field.label_tag }}</p></div>
+                                    <div style="width:35%; float:left;"><p style="display:inline;">{{ field }}</p></div><br><br>
+                                </div><br>
+                            {%endfor%}
+                                <div>
+                                    <button  type="submit" class="primary-btn">Add UPI ID</button>
+                                </div>
+                            </form>
+                        </div>
+                            </div>
+                            <input type="radio" onclick="javascript:yesnoCheck();" id="dor2" name="filter1[]" value="dor2">
+                            <label for="dor2">Add Paytm Number</label><br>
+                            <div style="margin-top:5%;margin-bottom:5%;margin-left:10%;">
+                                                        <div id="dor2filter">
+                            <form id="thisform4" method="post" data-url="%url 'orderproduct'%">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="formFive">
+                            {% for field in paytmform %}
+                                <div style="width:80%;">
+                                    <div style="width:30%; float:left;"><p style="display:inline;">{{ field.label_tag }}</p></div>
+                                    <div style="width:35%; float:left;"><p style="display:inline;">{{ field }}</p></div><br><br>
+                                </div><br>
+                            {%endfor%}
+                                <div>
+                                    <button  type="submit" class="primary-btn">Add Paytm Number</button>
+                                </div>
+                            </form>
+                        </div>
+                            </div>
                         </div>
 
+
+
+
                     </div>
+                </div>
 
                 <div class="col-md-6">
                     <div class="order-summary clearfix">
                         <div class="section-title">
-                            <h3 class="title">Shopcart Product List</h3>
+                            <h3 class="title">Total Amount</h3>
                         </div>
                         <table class="shopping-cart-table table" id="taskList">
-                            </tbody>
                             <tfoot>
                             <tr>
                                 <th class="empty" colspan="3"></th>
@@ -78,18 +175,9 @@
                             </tr>
                             </tfoot>
                         </table>
-                                                    <div>
-                                <button  type="submit" class="primary-btn">Complete Order</button>
-                            </div>
-
-
                     </div>
-
                 </div>
-</Form>
-
             </div>
-            <div id="results"></div>
             <!-- /row -->
         </div>
         <!-- /container -->
@@ -116,6 +204,51 @@
           document.getElementById('nothing2').style.display = 'none';
           document.getElementById('nothing11').style.display = 'none';
           document.getElementById('nothing22').style.display = 'none';
+      }
+    }
+    function yesnoCheck() {
+      if (document.getElementById('stn').checked) {
+          document.getElementById('stnfilter').style.display = 'block';
+          document.getElementById('postfilter').style.display = 'none';
+          document.getElementById('dor1filter').style.display = 'none';
+          document.getElementById('dor2filter').style.display = 'none';
+      }
+      else if (document.getElementById('post').checked) {
+          document.getElementById('postfilter').style.display = 'block';
+          document.getElementById('stnfilter').style.display = 'none';
+          document.getElementById('dor1filter').style.display= 'none';
+          document.getElementById('dor2filter').style.display = 'none';
+      }
+      else if (document.getElementById('dor1').checked) {
+          document.getElementById('dor1filter').style.display = 'block';
+          document.getElementById('postfilter').style.display = 'none';
+          document.getElementById('stnfilter').style.display = 'none';
+          document.getElementById('dor2filter').style.display = 'none';
+      }
+      else if (document.getElementById('dor2').checked) {
+          document.getElementById('dor2filter').style.display = 'block';
+          document.getElementById('postfilter').style.display = 'none';
+          document.getElementById('stnfilter').style.display = 'none';
+          document.getElementById('dor1filter').style.display = 'none';
+      }
+      else {
+          document.getElementById('stnfilter').style.display = 'none';
+          document.getElementById('postfilter').style.display = 'none';
+          document.getElementById('dor1filter').style.display = 'none';
+          document.getElementById('dor2filter').style.display = 'none';
+      }
+    }
+    function hideButton()
+    {
+      document.getElementById('stnfilter').style.display = 'none';
+      document.getElementById('postfilter').style.display = 'none';
+      document.getElementById('dor1filter').style.display = 'none';
+      document.getElementById('dor2filter').style.display = 'none';
+      var w = document.getElementsByTagName('input');
+      for(var i = 0; i < w.length; i++){
+        if(w[i].type=='radio'){
+          w[i].checked = false;
+        }
       }
     }
 </script>
