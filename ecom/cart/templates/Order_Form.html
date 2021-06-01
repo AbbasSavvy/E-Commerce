@@ -7,7 +7,7 @@
 
 {% block body %}
 {%load static%}
-
+    <hr>
     <!-- BREADCRUMB -->
     <div id="breadcrumb">
         <div class="container">
@@ -183,10 +183,10 @@
         <!-- /container -->
     </div>
     <!-- /section -->
-		<script  src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js' ></script>
+		{% comment %} <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js' ></script>
 		<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script>
-<script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js'></script> {% endcomment %}
+{% comment %} <script>
     function dislaydeliverycharge() {
       var element = document.getElementById("id_deloptionselection_0");
       var element2 = document.getElementById("id_deloptionselection_1");
@@ -456,5 +456,21 @@ fields: {
 });
 </script>
 
+<script>
+	    function hideButton()
+    {
+      document.getElementById('stnfilter').style.display = 'none';
+      document.getElementById('postfilter').style.display = 'none';
+      document.getElementById('dor1filter').style.display = 'none';
+      document.getElementById('dor2filter').style.display = 'none';
+      var w = document.getElementsByTagName('input');
+      for(var i = 0; i < w.length; i++){
+        if(w[i].type=='radio'){
+          w[i].checked = false;
+        }
+      }
+    }
+</script> {% endcomment %}
+
 {% endblock %}
-{% block footer %}{% include 'footer.html' %}{% endblock %}
+{% block footer %}{% include 'footer4.html' %}{% endblock %}
