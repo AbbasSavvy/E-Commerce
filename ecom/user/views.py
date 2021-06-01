@@ -46,6 +46,8 @@ def login_form(request):
             return HttpResponseRedirect('/')
         else:
             # Return an 'invalid login' error message.
+            messages.warning(request, 'Please input the correct login details.')
+            print('hhhhhhhhhhhhhhhhhhhhhhlllllllllllllllllllllllllllll')
             return HttpResponseRedirect('/login')
 
     category = Category.objects.all()
