@@ -5,6 +5,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordResetForm
@@ -182,7 +183,18 @@ def user_password(request):
 def user_orders(request):
     category = Category.objects.all()
     current_user = request.user
-    orders = Order.objects.filter(user_id=current_user.id)
+    all_orders = Order.objects.filter(user_id=current_user.id)
+    if all_orders.count() > 0:
+        page = request.GET.get('page', 1)
+        paginator = Paginator(all_orders, 2)
+        try:
+            orders = paginator.page(page)
+        except PageNotAnInteger:
+            orders = paginator.page(1)
+        except EmptyPage:
+            orders = paginator.page(paginator.num_pages)
+    else:
+        orders = Order.objects.filter(user_id=current_user.id)
     context = {'category': category,
                'orders': orders,
                }
@@ -207,7 +219,18 @@ def user_orderdetail(request, id):
 def user_order_product(request):
     category = Category.objects.all()
     current_user = request.user
-    order_product = OrderProduct.objects.filter(user_id=current_user.id).order_by('-id')
+    all_order_product = OrderProduct.objects.filter(user_id=current_user.id).order_by('-id')
+    if all_order_product.count() > 0:
+        page = request.GET.get('page', 1)
+        paginator = Paginator(all_order_product, 2)
+        try:
+            order_product = paginator.page(page)
+        except PageNotAnInteger:
+            order_product = paginator.page(1)
+        except EmptyPage:
+            order_product = paginator.page(paginator.num_pages)
+    else:
+        order_product = OrderProduct.objects.filter(user_id=current_user.id).order_by('-id')
     profile1 = User1Profile.objects.filter(user_id=current_user.id)
     profile2 = User2Profile.objects.filter(user_id=current_user.id)
     context = {'category': category,
