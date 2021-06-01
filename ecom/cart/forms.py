@@ -50,19 +50,19 @@ class OrderForm(forms.Form):
 class addcreditcard(forms.ModelForm):
     ccardnumber = forms.CharField(max_length=16, label='Card Number :',
                               widget=forms.TextInput
-                              (attrs={'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
+                              (attrs={'type':'number', 'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
     cexpyear = forms.CharField(max_length=4, label='Expiry Year :',
                            widget=forms.TextInput
-                           (attrs={'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
+                           (attrs={'type':'number', 'max':'2050', 'min':'2021', 'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
     cexpmonth = forms.CharField(max_length=2, label='Expiry Month :',
                             widget=forms.TextInput
-                            (attrs={'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
+                            (attrs={'type':'number', 'max':'13', 'min':'01', 'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
     cnameoncard = forms.CharField(max_length=100, label='Name on Card:',
                                   widget=forms.TextInput
                                   (attrs={'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
     ccvv = forms.CharField(max_length=3, label='CVV :',
                               widget=forms.TextInput
-                              (attrs={'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
+                              (attrs={'type':'number', 'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
 
     class Meta:
         model = User3Profile
@@ -71,19 +71,19 @@ class addcreditcard(forms.ModelForm):
 class adddebitcard(forms.ModelForm):
     dcardnumber = forms.CharField(max_length=16, label='Card Number :',
                               widget=forms.TextInput
-                              (attrs={'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
+                              (attrs={'type':'number', 'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
     dexpyear = forms.CharField(max_length=4, label='Expiry Year :',
                            widget=forms.TextInput
-                           (attrs={'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
+                           (attrs={'type':'number', 'max':'2050', 'min':'2021', 'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
     dexpmonth = forms.CharField(max_length=2, label='Expiry Month :',
                             widget=forms.TextInput
-                            (attrs={'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
+                            (attrs={'type':'number', 'max':'13', 'min':'01', 'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
     dnameoncard = forms.CharField(max_length=100, label='Name on Card:',
                                   widget=forms.TextInput
                                   (attrs={'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
     dcvv = forms.CharField(max_length=3, label='CVV :',
                               widget=forms.TextInput
-                              (attrs={'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
+                              (attrs={'type':'number', 'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
 
     class Meta:
         model = User4Profile
@@ -101,7 +101,7 @@ class addupiid(forms.ModelForm):
 class addpaytmno(forms.ModelForm):
     paytmnumber = forms.CharField(max_length=10, label='Paytm linked Number :',
                               widget=forms.TextInput
-                              (attrs={'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
+                              (attrs={'type':'number', 'class': 'form-control', 'style': 'width:500px', 'required': 'true'}))
 
     class Meta:
         model = User6Profile
