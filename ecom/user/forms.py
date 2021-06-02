@@ -72,7 +72,7 @@ class UserUpdateForm(UserChangeForm):
         fields = ('username', 'email', 'first_name', 'last_name')
         widgets = {
             'username': TextInput(attrs={'class': 'input', 'placeholder': 'username', 'required': 'true'}),
-            'email': EmailInput(attrs={'class': 'input', 'placeholder': 'email', 'required': 'true'}),
+            'email': EmailInput(attrs={'type': 'email', 'class': 'input', 'placeholder': 'email', 'required': 'true'}),
             'first_name': TextInput(attrs={'class': 'input', 'placeholder': 'first_name', 'required': 'true'}),
             'last_name': TextInput(attrs={'class': 'input', 'placeholder': 'last_name', 'required': 'true'}),
         }
@@ -135,7 +135,7 @@ class AddUpiid(forms.ModelForm):
 class AddPaytmno(forms.ModelForm):
     paytmnumber = forms.CharField(max_length=10, label='Paytm linked Number :',
                               widget=forms.TextInput
-                              (attrs={'type':'number', 'class': 'form-control', 'style': 'width:500px'}))
+                              (attrs={'type':'number', 'class': 'form-control', 'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck()"}))
 
     class Meta:
         model = User6Profile
@@ -144,7 +144,7 @@ class AddPaytmno(forms.ModelForm):
 class PhoneForm(forms.ModelForm):
     phone = forms.IntegerField(label='Phone :',
                                widget=forms.TextInput
-                               (attrs={'class': 'form-control', 'style': 'width:500px'}))
+                               (attrs={'class': 'form-control ', 'style': 'width:500px'}))
 
     class Meta:
         model = User2Profile

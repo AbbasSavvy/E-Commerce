@@ -10,16 +10,15 @@
 
 	<!-- BREADCRUMB -->
 	
-	{% comment %} <div id="breadcrumb">
-		<div class="container">
-		
-			<ul class="breadcrumb breadcrumb-2">
-				<li><a href="/">Home</a></li>
-				<li class="active">User Sign Up</li>
-			</ul>
-		</div>
-	</div> {% endcomment %}
-
+        	                {% if messages %}
+                    {% for message in messages %}
+                        {% if forloop.last %}
+                        <div class="alert alert-{{message.tags}}" role="alert" style="margin-left:40%;margin-right:40%;background:#AFE0F9;color:black;">
+                            {{ message |safe }}
+                        </div>
+                        {%endif%}
+                    {% endfor %}
+                {% endif %}
 	<!-- /BREADCRUMB -->
 
 	<!-- section -->
