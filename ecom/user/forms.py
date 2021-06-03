@@ -81,22 +81,21 @@ class UserUpdateForm(UserChangeForm):
 class AddDebitCard(forms.ModelForm):
     dcardnumber = forms.CharField(max_length=16, label='Card Number :',
                                   widget=forms.TextInput
-                                  (attrs={'type': 'number', 'class': 'form-control myClass', 'style': 'width:500px',
-                                          'name': 'cardnum'}))
+                                  (attrs={'type':'number', 'class': 'form-control', 'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck()"}))
     dexpyear = forms.CharField(max_length=4, label='Expiry Year :',
                                widget=forms.TextInput
                                (attrs={'type': 'number', 'max': '2050', 'min': '2021', 'class': 'form-control',
-                                       'style': 'width:500px'}))
+                                       'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck()"}))
     dexpmonth = forms.CharField(max_length=2, label='Expiry Month :',
                                 widget=forms.TextInput
                                 (attrs={'type': 'number', 'max': '13', 'min': '01', 'class': 'form-control',
-                                        'style': 'width:500px'}))
+                                        'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck()"}))
     dnameoncard = forms.CharField(max_length=100, label='Name on Card:',
                                   widget=forms.TextInput
-                                  (attrs={'class': 'form-control', 'style': 'width:500px'}))
+                                  (attrs={'class': 'form-control', 'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck()"}))
     dcvv = forms.CharField(max_length=3, label='CVV :',
                            widget=forms.TextInput
-                           (attrs={'type': 'number', 'class': 'form-control', 'style': 'width:500px'}))
+                           (attrs={'type': 'number', 'class': 'form-control', 'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck()"}))
 
     class Meta:
         model = User4Profile
@@ -105,19 +104,21 @@ class AddDebitCard(forms.ModelForm):
 class AddCreditCard(forms.ModelForm):
     ccardnumber = forms.CharField(max_length=16, label='Card Number :',
                               widget=forms.TextInput
-                              (attrs={'type':'number', 'class': 'form-control', 'style': 'width:500px'}))
+                              (attrs={'type':'number', 'class': 'form-control', 'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck()"}))
     cexpyear = forms.CharField(max_length=4, label='Expiry Year :',
                            widget=forms.TextInput
-                           (attrs={'type':'number', 'max':'2050', 'min':'2021', 'class': 'form-control', 'style': 'width:500px'}))
+                           (attrs={'type': 'number', 'max': '2050', 'min': '2021', 'class': 'form-control',
+                                       'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck()"}))
     cexpmonth = forms.CharField(max_length=2, label='Expiry Month :',
                             widget=forms.TextInput
-                            (attrs={'type':'number', 'max':'13', 'min':'01', 'class': 'form-control', 'style': 'width:500px'}))
+                            (attrs={'type': 'number', 'max': '13', 'min': '01', 'class': 'form-control',
+                                        'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck()"}))
     cnameoncard = forms.CharField(max_length=100, label='Name on Card:',
                                   widget=forms.TextInput
-                                  (attrs={'class': 'form-control', 'style': 'width:500px'}))
+                                  (attrs={'class': 'form-control', 'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck()"}))
     ccvv = forms.CharField(max_length=3, label='CVV :',
                               widget=forms.TextInput
-                              (attrs={'type':'number', 'class': 'form-control', 'style': 'width:500px'}))
+                              (attrs={'type': 'number', 'class': 'form-control', 'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck()"}))
 
     class Meta:
         model = User3Profile
@@ -126,7 +127,7 @@ class AddCreditCard(forms.ModelForm):
 class AddUpiid(forms.ModelForm):
     upiid = forms.CharField(max_length=100, label='UPI ID :',
                               widget=forms.TextInput
-                              (attrs={'class': 'form-control', 'style': 'width:500px'}))
+                              (attrs={'class': 'form-control', 'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck2()"}))
 
     class Meta:
         model = User5Profile
@@ -144,7 +145,7 @@ class AddPaytmno(forms.ModelForm):
 class PhoneForm(forms.ModelForm):
     phone = forms.IntegerField(label='Phone :',
                                widget=forms.TextInput
-                               (attrs={'class': 'form-control ', 'style': 'width:500px'}))
+                               (attrs={'type':'number', 'class': 'form-control', 'style': 'width:500px', 'onkeyup':"javascript:yesnoCheck1()"}))
 
     class Meta:
         model = User2Profile

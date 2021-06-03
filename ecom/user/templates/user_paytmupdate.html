@@ -117,6 +117,29 @@ bootstrapValidate($ff, 'numeric:Only numbers allowed')
 $f2=$f2+1
 {%endfor%}
 function yesnoCheck(){
+$f2=0
+{% for form in formset %}
+$f1='#id_user6profile_set-'
+$f3='-paytmnumber'
+$f=$f1.concat($f2.toString())
+$ff=$f.concat($f3)
+bootstrapValidate($ff, 'min:10:Paytm number must be of 10 digits')
+bootstrapValidate($ff, 'max:10:Paytm number must be of 10 digits')
+bootstrapValidate($ff, 'numeric:Only numbers allowed')
+$f2=$f2+1
+{%endfor%}
+var te =  document.getElementsByClassName('form-control');
+for(var j = 0; j < te.length; j++)
+{
+    console.log(te[j].classList)
+    console.log(te[j].classList.contains('is-invalid'))
+    console.log(te[j].id)
+    if (!te[j].classList.contains('is-invalid')){
+        console.log($(te[j]))
+        console.log($(te[j]).next())
+        $(te[j]).next().remove()
+    }
+}
 var element =  document.getElementsByClassName('is-invalid');
   for(var i = 0; i < element.length; i++){
 	if (i==element.length-1)

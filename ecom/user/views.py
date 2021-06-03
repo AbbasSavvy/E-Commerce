@@ -366,6 +366,12 @@ def ccuser_managepayment(request):
             formset.save()
             print("3")
             return redirect('index')
+        else:
+            print(formset.errors)
+            val=formset.errors
+            if "['This field is required.']" in str(val):
+                messages.warning(request, 'Invalid credit card details.')
+                print(formset.errors)
     print("2")
     category = Category.objects.all()
     formset = chilFormset(instance=pare)
@@ -401,6 +407,12 @@ def dcuser_managepayment(request):
             formset.save()
             print("3")
             return redirect('index')
+        else:
+            print(formset.errors)
+            val=formset.errors
+            if "['This field is required.']" in str(val):
+                messages.warning(request, 'Invalid debit card details.')
+                print(formset.errors)
     category = Category.objects.all()
     formset = chilFormset(instance=pare)
     ii=0
