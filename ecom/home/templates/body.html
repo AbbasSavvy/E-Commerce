@@ -29,7 +29,13 @@
 								</div>
 								
 								<div id='newline' class="product-body body-product-body">
+									{% if product.product_price != product.product_discount %}
 									<h3 class="product-price body-product-price">₹ {{product.product_discount}} <del class="product-old-price">₹ {{product.product_price}}</del></h3>
+									{% else %}
+									<h3 class="product-price body-product-price">₹ {{product.product_discount}}</h3>
+									{% endif %}
+
+									
 									
 									<h2 class="product-name body-product-name"><a href="/product/{{product.id}}/{{product.slug}}">{{product.product_name}}</a></h2>
 									{% if product.product_stock >= 1  %}
@@ -71,7 +77,14 @@
 								</div>
 								
 								<div id='newline' class="product-body body-product-body">
+
+									{% if product.product_price != product.product_discount %}
 									<h3 class="product-price body-product-price">₹ {{product.product_discount}} <del class="product-old-price">₹ {{product.product_price}}</del></h3>
+									{% else %}
+									<h3 class="product-price body-product-price">₹ {{product.product_price}}</h3>
+									{% endif %}
+
+									
 									
 									<h2 class="product-name body-product-name"><a href="/product/{{product.id}}/{{product.slug}}">{{product.product_name}}</a></h2>
 									{% if product.product_stock >= 1  %}
