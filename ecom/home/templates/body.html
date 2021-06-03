@@ -36,8 +36,11 @@
 									{% endif %}
 
 									
-									
+									{% if product.product_name|length <= 30 %}
 									<h2 class="product-name body-product-name"><a href="/product/{{product.id}}/{{product.slug}}">{{product.product_name}}</a></h2>
+									{% else %}
+									<h2 class="product-name body-product-name"><a href="/product/{{product.id}}/{{product.slug}}">{{product.product_name|truncatechars:30}}</a></h2>
+									{% endif %}
 									{% if product.product_stock >= 1  %}
 										{% csrf_token %}
 											<a href="{% url "addtoshopcart" product.id  %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
@@ -85,8 +88,12 @@
 									{% endif %}
 
 									
-									
+									{% if product.product_name|length <= 30 %}
 									<h2 class="product-name body-product-name"><a href="/product/{{product.id}}/{{product.slug}}">{{product.product_name}}</a></h2>
+									{% else %}
+									<h2 class="product-name body-product-name"><a href="/product/{{product.id}}/{{product.slug}}">{{product.product_name|truncatechars:30}}</a></h2>
+									{% endif %}
+									
 									{% if product.product_stock >= 1  %}
 										{% csrf_token %}
 											<a href="{% url "addtoshopcart" product.id  %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
