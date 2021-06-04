@@ -1,14 +1,9 @@
 {% extends 'homeBase.html' %}
-
 {% block title %} Order Detail {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
-
 {% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
-
 {% block body %}
-
-    <!-- BREADCRUMB -->
     <div id="breadcrumb">
         <div class="container">
             <ul class="breadcrumb">
@@ -17,61 +12,56 @@
             </ul>
         </div>
     </div>
-    <!-- /BREADCRUMB -->
-    <!-- section -->
     <div class="section">
-        <!-- container -->
         <div class="container">
-            <!-- row -->
             <div class="row">
                 <div class="col-md-3">
                     {% include "user_panel.html" %}
                 </div>
-
                 <div class="col-md-9">
                     <div class="order-summary clearfix">
                         <div class="section-title">
                             <h3 class="title">Order Product List</h3>
                             <div class="pull-right">
-							{% if order_product.has_other_pages %}
-								<ul class="pagination">
-									{% if order_product.has_previous %}
-										<li class="page-item">
-											<a class="page-link" href="?page={{ order_product.previous_page_number }}">Previous</a>
-										</li>
-									{% else %}
-										<li class="page-item disabled">
-											<a class="page-link" href="#">Previous</a>
-										</li>
-									{% endif %}
-									{% for num in order_product.paginator.page_range %}
-										{% if order_product.number == l %}
-											<li class="page-item active">
-												<span class="page-link">
-													{{ num }}
-													<span class="sr-only">
-														(current)
-													</span>
-												</span>
-											</li>
-										{% else %}
-										<li>
-											<a class="page-link" href="?page={{ num }}">{{ num }}</a>
-										</li>
-										{% endif %}
-									{% endfor %}
-									{% if order_product.has_next %}
-										<li class="page-item">
-											<a class="page-link" href="?page={{ order_product.next_page_number }}">Next</a>
-										</li>
-									{% else %}
-										<li class="page-item disabled">
-											<a class="page-link" href="#">Next</a>
-										</li>
-									{% endif %}
-								</ul>
-							{% endif %}
-						</div>
+                                {% if order_product.has_other_pages %}
+                                    <ul class="pagination">
+                                        {% if order_product.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ order_product.previous_page_number }}">Previous</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#">Previous</a>
+                                            </li>
+                                        {% endif %}
+                                        {% for num in order_product.paginator.page_range %}
+                                            {% if order_product.number == l %}
+                                                <li class="page-item active">
+                                                    <span class="page-link">
+                                                        {{ num }}
+                                                        <span class="sr-only">
+                                                            (current)
+                                                        </span>
+                                                    </span>
+                                                </li>
+                                            {% else %}
+                                            <li>
+                                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                            </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if order_product.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ order_product.next_page_number }}">Next</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                {% endif %}
+						    </div>
                         </div>
 
                         <table class="shopping-cart-table table">
@@ -99,17 +89,11 @@
                                     <td class="text-left">{{ rs.create_at}} </td>
                                 </tr>
                             {% endfor %}
-
                         </table>
-
                     </div>
                 </div>
             </div>
-            <!-- /row -->
         </div>
-        <!-- /container -->
     </div>
-    <!-- /section -->
-
 {% endblock %}
 {% block footer %}{% include 'footer.html' %}{% endblock %}
