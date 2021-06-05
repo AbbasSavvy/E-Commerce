@@ -18,16 +18,16 @@
 
 						<!-- Search -->
 						<div class="header-search">
-							<form action="/search/" method="POST">
+							<form action="/search/" method="POST" id="searchform">
 								{% csrf_token %}
-								<select name="catid"  class="input search-categories">
+								<select name="catid"  class="input search-categories"  id="ddlFruits">
 									<option value="0">All Categories</option>
 
 									{% load mptt_tags %}
 
 									{% recursetree category %}
 										{% if node.is_leaf_node %}
-											<option value="{{ node.id }}">{{ node.category_name }}</option>
+											<option value="{{ node.id }}" class="okkk">{{ node.category_name }}</option>
 										{% endif %}
 										{% if not node.is_leaf_node %}
 											<optgroup label="{{ node.category_name }}">
@@ -36,8 +36,8 @@
 										{% endif %}
 									{% endrecursetree %}
 								</select>
-								<input id="query" name="query" class="input search-input" type="text" placeholder="Enter your keyword">
-								<button class="search-btn"><i class="fa fa-search"></i></button>
+								<input id="query" name="query" onkeyup="javascript:yes2noCheck()" class="input search-input" type="text" placeholder="Enter your keyword">
+								<button class="search-btn" onclick="javascript:yes2noCheck()"><i class="fa fa-search"></i></button>
 							</form>
 						</div>
 					</div>
@@ -89,3 +89,19 @@
 		<!-- container -->
 	</header>
 	<!-- /HEADER -->
+	<script>
+		function yes2noCheck(){
+		var m =  document.getElementById('searchform');
+		var n =	 document.getElementById('query');
+		var ddlFruits = document.getElementById("ddlFruits");
+        var selectedText = ddlFruits.options[ddlFruits.selectedIndex].innerHTML;
+        var selectedValue = ddlFruits.value;
+		console.log(n.value);
+		console.log(selectedValue);
+		fff="/search/?page=1&que=".concat((n.value).toString())
+		fff1=fff.concat("&cid=")
+		fff2=fff1.concat(selectedValue.toString())
+		console.log(fff2);
+		m.setAttribute("action", fff2);
+		}
+	</script>
