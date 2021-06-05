@@ -41,7 +41,7 @@
                             <h3 class="title">Login Form</h3>
                         </div>
 
-                        <form action="" method="post">
+                        <form method="post">
                             {% csrf_token %}
                            <div class="form-group" style="width:40%">
 								<input class="input" type="text" name="username" placeholder="Username">
@@ -52,7 +52,7 @@
                             <input type="submit" value="Login" class="primary-btn">
                         </form>
 						<br>
-						<a href="{% url 'password_reset' %}"  type="button" class="primary-btn">Forgot Password</a>
+						<a href="{% url 'password_reset' %}" class="primary-btn">Forgot Password</a>
 
                     </div>
                 </div>

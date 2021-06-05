@@ -28,7 +28,8 @@
 									<img class="deals-images" src="{{product.product_image.url}}" alt="{{product.product_image.url}}">
 								</div>
 								
-								<div id='newline' class="product-body body-product-body">
+								<!-- <div id='newline' class="product-body body-product-body"> -->
+								<div class="product-body body-product-body">
 									{% if product.product_price != product.product_discount %}
 									<h3 class="product-price body-product-price">₹ {{product.product_discount}} <del class="product-old-price">₹ {{product.product_price}}</del></h3>
 									{% else %}
@@ -79,7 +80,8 @@
 									<img class="deals-images" src="{{product.product_image.url}}" alt="{{product.product_image.url}}">
 								</div>
 								
-								<div id='newline' class="product-body body-product-body">
+								<!-- <div id='newline' class="product-body body-product-body"> -->
+								<div class="product-body body-product-body">
 
 									{% if product.product_price != product.product_discount %}
 									<h3 class="product-price body-product-price">₹ {{product.product_discount}} <del class="product-old-price">₹ {{product.product_price}}</del></h3>
