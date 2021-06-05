@@ -1308,3 +1308,10 @@ footer {
 		width: 100%;
 	}
 }
+
+.invalid-feedback{
+    color:red;
+}
+.is-invalid{
+    border: red 1px solid;
+}
