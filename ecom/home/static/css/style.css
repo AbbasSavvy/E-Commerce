@@ -8,6 +8,8 @@ Colors:
 
 */
 
+/*AMLL*/
+
 .dropdown-menu {
 	width: 260px !important;
 	float: right;
@@ -307,7 +309,8 @@ header {
 
 .header-search {
 	display: inline-block;
-	max-width: 450px;
+	padding: 15px 0px;
+	max-width: 400px;
 }
 
 .header-search > form {
@@ -315,8 +318,9 @@ header {
 }
 
 .header-search > form .search-input {
-	width: 180px;
-	margin-left: 140px;
+	margin-left: 83%;
+	padding-left: 10px;
+	padding-right: 45px;
 	background-color: white;
 }
 
@@ -331,9 +335,9 @@ header {
 .header-search > form .search-btn {
 	position: absolute;
 	vertical-align: middle;
-	margin-left: 86%;
+	margin-left: 165%;
 	top: 3px;
-	left: 0;
+	float: right;
 	width: 40px;
 	height: 40px;
 	background-color: transparent;
@@ -1305,11 +1309,4 @@ footer {
 	[class*="col-xs"] {
 		width: 100%;
 	}
-}
-
-.invalid-feedback{
-    color:red;
-}
-.is-invalid{
-    border: red 1px solid;
 }

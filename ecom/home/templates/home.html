@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <title>PS Bot</title>
-  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" type="text/css" href="/static/css/style1.css">
@@ -21,18 +20,22 @@
       </div>
     </header>
 
-    <main class="msger-chat">
+    <div class="msger-chat">
       <div class="msg left-msg">
         <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg)"></div>
 
         <div class="msg-bubble">
           <div class="msg-info">
-            <div class="msg-info-name">PSBot</div>
+            <div class="msg-info-name">PS-Bot</div>
           </div>
 
           <div class="msg-text">
-            Hi, welcome to Personal Shopper Website! I am PSBot. Go ahead and send me a message. 😄 <br>
-            You can also ask me to suggest you products based on your brand, price range and category. I will also provide you link so you can see the details.  😄<br>
+             Hi, welcome to Personal Shopper Website! I am <strong>PS-Bot</strong>.
+            <br> 
+            Go ahead and send me a message. 
+            <br>
+            You can also ask me to suggest you products based on your brand, price range and category. I will also provide you product's links, so you can see the products in detail.  
+            <br>
             <br><strong>Please use the following Syntax to narrow down your product search:</strong> <br><br> 
             1)   in 10 and 100000 product:productname<br>
             2)   in 1000 and 2000 brand:brandname product:productname<br>
@@ -42,7 +45,7 @@
         </div>
       </div>
 
-    </main>
+    </div>
 
     <form class="msger-inputarea">
       <input type="text" class="msger-input" id="textInput" placeholder="Enter your message...">
@@ -62,7 +65,7 @@
     // Icons made by Freepik from www.flaticon.com
     const BOT_IMG = "https://image.flaticon.com/icons/svg/327/327779.svg";
     const PERSON_IMG = "https://image.flaticon.com/icons/svg/145/145867.svg";
-    const BOT_NAME = "PSBot";
+    const BOT_NAME = "PS-Bot";
     const PERSON_NAME = "You";
 
     msgerForm.addEventListener("submit", event => {
