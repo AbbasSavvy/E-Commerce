@@ -1,4 +1,8 @@
 {% extends 'homeBase2.html' %}
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 74e2cd9 (imp validations done)
 {% block title %}  {{ user.first_name }} Profile  Update{% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
@@ -27,6 +31,7 @@
                     <form method="POST" enctype = "multipart/form-data">
                         {% csrf_token %}
                         <fieldset class="form-group">
+<<<<<<< HEAD
                             {% for field in user_form %}
                                 {% if not forloop.last %}
                                     <p>
@@ -41,6 +46,22 @@
                                     </p>
                                 {% endif %}
                             {% endfor %}
+=======
+                                                    {% for field in user_form %}
+                            {% if not forloop.last %}
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <small style="color: grey">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </p>
+                            {% endif %}
+                        {% endfor %}
+>>>>>>> parent of 74e2cd9 (imp validations done)
                         </fieldset>
                         <div class="form-group">
                             <button class="primary-btn" type="submit">Update</button>
@@ -50,5 +71,10 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+=======
+    <!-- /section -->
+
+>>>>>>> parent of 74e2cd9 (imp validations done)
 {% endblock %}
 {% block footer %} {%  include 'footer.html'  %} {% endblock %}

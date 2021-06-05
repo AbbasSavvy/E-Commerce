@@ -15,6 +15,12 @@
             </ul>
         </div>
     </div>
+<<<<<<< HEAD
+=======
+    <!-- /BREADCRUMB -->
+
+    <!-- section -->
+>>>>>>> parent of 74e2cd9 (imp validations done)
     <div class="section">
         <div class="container">
             <div class="row">
@@ -38,6 +44,7 @@
                             <br>
                         {%endif%}
                         <div>
+<<<<<<< HEAD
                             {% for form in formset %}
                                 {% if forloop.last %}
                                     {% if formset.total_form_count > 1 %}
@@ -59,6 +66,48 @@
                                             {%endif%}
                                         {%endif%}
                                     {% endfor %}
+=======
+                        {% for form in formset %}
+                            {% if forloop.last %}
+                            {% if formset.total_form_count > 1 %}
+                                <br><h3 class="title">You May add more addresses. </h3><br><br>
+                            {% else%}
+                                <br><h3 class="title">Please Fill the following details.</h3><br><br>
+                            {%endif%}
+                            {% for field in form %}
+                                    {% if not "Delete:" in field.label_tag %}
+                                    {% if not "Id:" in field.label_tag %}
+                                        {% if not forloop.last %}
+                                            {{ field.errors }}
+                                            <div style="width:90%; margin-left:10%">
+                                                <div style="width:25%; float:left;"><p style="display:inline;">{{ field.label_tag }}</p></div>
+                                                <div style="width:50%; float:left;"><p style="display:inline;">{{ field }}</p></div><br>
+                                            </div><br>
+                                        {%endif%}
+                                    {%endif%}
+                                    {%endif%}
+                                {% endfor %}
+                            {% else %}
+                            <div><h4 class="title">Address {{forloop.counter}}</h4></div>
+                                {% for field in form %}
+                                    {% if not "Id:" in field.label_tag %}
+                                        {% if not forloop.last %}
+                                            {{ field.errors }}
+                                            <div style="width:90%; margin-left:10%">
+                                                <div style="width:25%; float:left;"><p style="display:inline;">{{ field.label_tag }}</p></div>
+                                                <div style="width:50%; float:left;"><p style="display:inline;">{{ field }}</p></div><br><br>
+                                            </div>
+                                        {%endif%}
+                                    {% else %}
+                                        {{ field.errors }}{{ field }}
+                                    {%endif%}
+                                 {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                        </div><br><br>
+                        <div><button class="primary-btn" type="submit" style="margin-left:40%;" >Save the Changes</button></div>
+                    </form>
+>>>>>>> parent of 74e2cd9 (imp validations done)
 
                                 {% else %}
                                     <div>
@@ -90,5 +139,10 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+=======
+    <!-- /section -->
+
+>>>>>>> parent of 74e2cd9 (imp validations done)
 {% endblock %}
 {% block footer %} {%  include 'footer.html'  %} {% endblock %}
