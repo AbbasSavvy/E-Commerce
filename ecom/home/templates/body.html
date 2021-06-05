@@ -38,7 +38,7 @@
 
 									{% if product.product_stock >= 1  %}
 										{% csrf_token %}
-										<a href="{% url "addtoshopcart" product.id  %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+										<a href="{% url 'addtoshopcart' product.id  %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
 									{% else %}
 										<span class='out-of-stock'>Out of Stock</span>
 									{% endif %}
@@ -88,7 +88,7 @@
 								
 								{% if product.product_stock >= 1  %}
 									{% csrf_token %}
-										<a href="{% url "addtoshopcart" product.id  %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+										<a href="{% url 'addtoshopcart' product.id  %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
 								{% else %}
 								<span class='out-of-stock'>Out of Stock</span>
 								{% endif %}
