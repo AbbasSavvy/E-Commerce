@@ -35,17 +35,7 @@ def index(request):
                'profile2': profile2}
     return render(request, 'user_profile.html', context)
 
-def login_excluded(redirect_to):
-    """ This decorator kicks authenticated users out of a view """ 
-    def _method_wrapper(view_method):
-        def _arguments_wrapper(request, *args, **kwargs):
-            if request.user.is_authenticated:
-                return redirect(redirect_to) 
-            return view_method(request, *args, **kwargs)
-        return _arguments_wrapper
-    return _method_wrapper
 
-@login_excluded('/')
 def login_form(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -70,7 +60,7 @@ def logout_func(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-@login_excluded('/')
+
 def newsignup(request):
     if request.method == 'POST':
         form = SignUp1Form(request.POST)
@@ -159,6 +149,12 @@ def user_addressupdate(request):
             formset.save()
             print("3")
             return redirect('index')
+        else:
+            print(formset.errors)
+            val=formset.errors
+            if "['This field is required.']" in str(val):
+                messages.warning(request, 'Missing Address details.')
+                print(formset.errors)
     print("2")
     category = Category.objects.all()
     formset = chilFormset(instance=pare)

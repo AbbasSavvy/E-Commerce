@@ -1,9 +1,14 @@
 {% extends 'homeBase2.html' %}
+
 {% block title %}  {{ user.first_name }} Profile {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
+
 {% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
 {% block body %}
+
+    <!-- BREADCRUMB -->
     <div id="breadcrumb">
         <div class="container">
             <ul class="breadcrumb">
@@ -12,19 +17,26 @@
             </ul>
         </div>
     </div>
+    <!-- /BREADCRUMB -->
+
+    <!-- section -->
     <div class="section">
+        <!-- container -->
         <div class="container">
+            <!-- row -->
             <div class="row">
+
                 <div class="col-md-3">
                     {% include "user_panel.html" %}
                 </div>
+
                 <div class="col-md-9">
                     <div class="billing-details">
                         <div class="section-title">
                             <h3 class="title">Your Profile Information</h3>
                         </div>
                     </div>
-                    <table class="shopping-cart-table table">
+                     <table class="shopping-cart-table table">
                         <tr>
                             <th class="text-left">Name</th>
                             <td class="text-left">{{ user.first_name}} {{ user.last_name}} </td>
@@ -53,10 +65,17 @@
                                 </ul>
                             </td>
                         </tr>
+
                     </table>
                 </div>
+
+
             </div>
+            <!-- /row -->
         </div>
+        <!-- /container -->
     </div>
+    <!-- /section -->
+
 {% endblock %}
 {% block footer %} {%  include 'footer.html'  %} {% endblock %}
