@@ -1,11 +1,7 @@
 {% load static %}
-	<!-- section -->
 	<div class="section">
-		<!-- container -->
 		<div class="container">
-			<!-- row -->
 			<div class="row">
-				<!-- section-title -->
 				<div class="col-md-12">
 					<div class="section-title">
 						<h2 class="title">Latest Products</h2>
@@ -14,9 +10,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- /section-title -->
-				
-				<!-- Product Slick -->
 				<div class="col-lg-12 col-md-12 col-sm-4 col-xs-2">
 					<div class="row">
 						<div id="product-slick-1" class="product-slick">
@@ -28,7 +21,8 @@
 									<img class="deals-images" src="{{product.product_image.url}}" alt="{{product.product_image.url}}">
 								</div>
 								
-								<div id='newline' class="product-body body-product-body">
+								<!-- <div id='newline' class="product-body body-product-body"> -->
+								<div class="product-body body-product-body">
 									{% if product.product_price != product.product_discount %}
 									<h3 class="product-price body-product-price">₹ {{product.product_discount}} <del class="product-old-price">₹ {{product.product_price}}</del></h3>
 									{% else %}
@@ -56,7 +50,6 @@
 			</div>
 
 			<div class="row">
-				<!-- section-title -->
 				<div class="col-md-12">
 					<div class="section-title">
 						<h2 class="title">Deals Of The Day</h2>
@@ -65,9 +58,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- /section-title -->
-
-				<!-- Product Slick -->
 				<div class="col-lg-12 col-md-12 col-sm-4 col-xs-2">
 					<div class="row">
 						<div id="product-slick-2" class="product-slick">
@@ -79,7 +69,8 @@
 									<img class="deals-images" src="{{product.product_image.url}}" alt="{{product.product_image.url}}">
 								</div>
 								
-								<div id='newline' class="product-body body-product-body">
+								<!--<div id='newline' class="product-body body-product-body"> -->
+								<div class="product-body body-product-body">
 
 									{% if product.product_price != product.product_discount %}
 									<h3 class="product-price body-product-price">₹ {{product.product_discount}} <del class="product-old-price">₹ {{product.product_price}}</del></h3>
@@ -108,67 +99,6 @@
 				</div>
 			</div>
 			
-			{% comment %} <div class="row">
-				<div class="col-md-3 col-sm-6 col-xs-6">
-						<div class="product product-single">
-							<div class="product-thumb">
-								<button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button>
-								<img src="./img/product01.jpg" alt="">
-							</div>
-							<div class="product-body">
-								<h3 class="product-price">$32.50</h3>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o empty"></i>
-								</div>
-								<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-								<div class="product-btns">
-									<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-									<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				
-				<div class="col-md-3 col-sm-6 col-xs-6">
-					<div class="product product-single">
-						<div class="product-thumb">
-							<div class="product-label">
-								<span>New</span>
-								<span class="sale">-20%</span>
-							</div>
-							<button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button>
-							<img src="./img/product02.jpg" alt="">
-						</div>
-						<div class="product-body">
-							<h3 class="product-price">$32.50 <del class="product-old-price">$45.00</del></h3>
-							<div class="product-rating">
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star-o empty"></i>
-							</div>
-							<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-							<div class="product-btns">
-								<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-								<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-								<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-			</div> {% endcomment %}
 		</div>
 	</div>
-							<!-- /Product Single -->
-
-	<!-- /section -->
 
